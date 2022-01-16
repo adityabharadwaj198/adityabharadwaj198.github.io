@@ -5,6 +5,9 @@ Welcome to my page [editor on GitHub](https://github.com/adityabharadwaj198/adit
 ### Find me here: 
 
 🐦 [twitter](https://twitter.com/ad1tyabharadwaj)
+
 👔 [linkedin](https://www.linkedin.com/in/aditya-bharadwaj-28a91844/)
+
 💻 [github](https://github.com/adityabharadwaj198/)
+
 📷 [instagram](https://www.instagram.com/bhardu.sol/)
