@@ -11,3 +11,7 @@ Welcome to my page. It's a central repo of all links you can find me at.
 💻 [github](https://github.com/adityabharadwaj198/)
 
 📷 [instagram](https://www.instagram.com/bhardu.sol/)
+
+📄 [resume](https://drive.google.com/file/d/1wMlSeLcq4WZmv5cWWQ_Es5ahJee-0BVd/view?usp=sharing)
+
+📧 [email](mailto:adityabharadwaj198@gmail.com)
