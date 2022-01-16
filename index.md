@@ -1,4 +1,4 @@
-## 😄 Yello! It's Aditya
+## 😄 Yello!
 
 Welcome to my page. It's a central repo of all links you can find me at. 
 
@@ -15,3 +15,5 @@ Welcome to my page. It's a central repo of all links you can find me at.
 📄 [resume](https://drive.google.com/file/d/1wMlSeLcq4WZmv5cWWQ_Es5ahJee-0BVd/view?usp=sharing)
 
 📧 [email](mailto:adityabharadwaj198@gmail.com)
+
+🎵 [spotify](https://open.spotify.com/user/adityabharadwaj198?si=f869c01e3ce34415)
