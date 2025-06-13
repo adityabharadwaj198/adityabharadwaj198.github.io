@@ -1,0 +1,224 @@
+/* Base styles */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+}
+
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* Header and Navigation */
+.site-header {
+  padding: 40px 0;
+  text-align: center;
+}
+
+.site-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.site-description {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.site-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.site-nav a {
+  font-size: 1.1rem;
+  color: #666;
+}
+.site-nav a:hover {
+  color: #007bff;
+  text-decoration: none;
+}
+
+/* Main Content */
+.main-content {
+  padding: 40px 0;
+}
+
+/* Blog Post List */
+.post-list {
+  margin-top: 40px;
+}
+.post-list .post-preview {
+  margin-bottom: 40px;
+}
+.post-list .post-preview h2 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+.post-list .post-preview h2 a {
+  color: #333;
+}
+.post-list .post-preview h2 a:hover {
+  text-decoration: underline;
+}
+.post-list .post-preview .post-meta {
+  color: #999;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+.post-list .post-preview .post-excerpt {
+  color: #555;
+  line-height: 1.7;
+}
+.post-list .post-preview .read-more {
+  display: inline-block;
+  margin-top: 15px;
+  color: #007bff;
+  font-weight: bold;
+}
+
+/* Single Post */
+.post h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+.post .post-meta {
+  color: #999;
+  font-size: 0.9rem;
+  margin-bottom: 30px;
+}
+.post .post-content {
+  color: #333;
+  line-height: 1.8;
+}
+.post .post-content h2 {
+  font-size: 2rem;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+.post .post-content h3 {
+  font-size: 1.5rem;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+.post .post-content p {
+  margin-bottom: 20px;
+}
+.post .post-content code {
+  background-color: #f0f0f0;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+.post .post-content pre {
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-radius: 5px;
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+.post .post-tags {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  color: #666;
+  font-size: 0.9rem;
+}
+.post .post-tags .tag {
+  display: inline-block;
+  background-color: #eee;
+  padding: 5px 10px;
+  border-radius: 3px;
+  margin-right: 8px;
+  color: #555;
+}
+.post .post-tags .tag:hover {
+  background-color: #ddd;
+  text-decoration: none;
+}
+.post .post-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+.post .post-navigation a {
+  color: #007bff;
+  font-weight: bold;
+}
+.post .post-navigation a:hover {
+  text-decoration: underline;
+}
+
+/* Footer */
+.site-footer {
+  text-align: center;
+  padding: 40px 0;
+  color: #999;
+  font-size: 0.9rem;
+  border-top: 1px solid #eee;
+  margin-top: 40px;
+}
+.site-footer .social-links {
+  margin-bottom: 15px;
+}
+.site-footer .social-links a {
+  color: #999;
+  margin: 0 10px;
+}
+.site-footer .social-links a:hover {
+  color: #007bff;
+}
+
+/* Home page specific styles */
+.home-content h1 {
+  font-size: 2.2rem;
+  margin-bottom: 15px;
+}
+.home-content h2 {
+  font-size: 1.8rem;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+.home-content ul {
+  list-style: none;
+  padding: 0;
+}
+.home-content ul li {
+  margin-bottom: 10px;
+}
+.home-content .tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+}
+.home-content .tech-stack .badge {
+  background-color: #eee;
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/*# sourceMappingURL=style.css.map */

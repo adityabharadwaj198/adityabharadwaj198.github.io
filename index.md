@@ -1,5 +1,5 @@
 ---
-layout: home
+layout: default
 title: Aditya Bharadwaj
 description: Software Engineer & Technology Enthusiast
 ---

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-06-13T23:23:23+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Aditya Bharadwaj</title><subtitle>Software Engineer &amp; Technology Enthusiast</subtitle><entry><title type="html">Welcome to My Blog</title><link href="http://localhost:4000/blog/2024/03/20/welcome-to-my-blog.html" rel="alternate" type="text/html" title="Welcome to My Blog" /><published>2024-03-20T00:00:00+05:30</published><updated>2024-03-20T00:00:00+05:30</updated><id>http://localhost:4000/blog/2024/03/20/welcome-to-my-blog</id><content type="html" xml:base="http://localhost:4000/blog/2024/03/20/welcome-to-my-blog.html"><![CDATA[<p>Welcome to my blog! This is where I’ll be sharing my thoughts, experiences, and insights about technology, software development, and other topics that interest me.</p>
+
+<h2 id="what-to-expect">What to Expect</h2>
+
+<p>In this blog, I’ll be writing about:</p>
+
+<ul>
+  <li>Software development best practices</li>
+  <li>Technology trends and insights</li>
+  <li>Personal projects and experiences</li>
+  <li>Book reviews and recommendations</li>
+  <li>And much more!</li>
+</ul>
+
+<h2 id="why-i-started-this-blog">Why I Started This Blog</h2>
+
+<p>I believe in the power of sharing knowledge and experiences. Through this blog, I hope to:</p>
+
+<ol>
+  <li>Document my learning journey</li>
+  <li>Share insights that might help others</li>
+  <li>Connect with like-minded individuals</li>
+  <li>Build a portfolio of my thoughts and expertise</li>
+</ol>
+
+<h2 id="stay-connected">Stay Connected</h2>
+
+<p>Feel free to reach out to me through any of the social links in the footer. I’m always happy to connect with fellow developers and technology enthusiasts!</p>
+
+<p><em>Stay tuned for more posts coming soon!</em></p>]]></content><author><name></name></author><category term="blog" /><category term="welcome" /><category term="introduction" /><summary type="html"><![CDATA[Welcome to my blog! This is where I’ll be sharing my thoughts, experiences, and insights about technology, software development, and other topics that interest me.]]></summary></entry></feed>
