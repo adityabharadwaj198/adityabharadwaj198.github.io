@@ -1,4 +1,33 @@
-theme: jekyll-theme-minimal
+theme: jekyll-theme-cayman
 
-title: [Aditya Bharadwaj]
+title: Aditya Bharadwaj
+description: Software Engineer & Technology Enthusiast
 logo: /assets/img/picture.png
+
+# Build settings
+markdown: kramdown
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .gitignore
+
+# Collections
+collections:
+  projects:
+    output: true
+    permalink: /projects/:path/
+
+# Default front matter
+defaults:
+  - scope:
+      path: ""
+      type: "projects"
+    values:
+      layout: "project"

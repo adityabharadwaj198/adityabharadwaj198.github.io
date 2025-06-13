@@ -1,0 +1,72 @@
+@import "{{ site.theme }}";
+
+// Custom styles
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+}
+
+.page-header {
+  background: linear-gradient(120deg, #2c3e50, #3498db);
+  padding: 3rem 1rem;
+}
+
+.main-content {
+  h1, h2, h3 {
+    color: #2c3e50;
+  }
+  
+  a {
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    
+    &:hover {
+      color: #2980b9;
+      text-decoration: underline;
+    }
+  }
+  
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+    
+    li {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+// Social links styling
+.social-links {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 0;
+  
+  a {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    background: #f8f9fa;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background: #e9ecef;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+// Tech stack badges
+.tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  
+  .badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    background: #e9ecef;
+    font-size: 0.9rem;
+  }
+} 
