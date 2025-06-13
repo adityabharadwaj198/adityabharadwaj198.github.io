@@ -3,19 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title }} - {{ site.title }}</title>
+  <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
   {% seo %}
 </head>
 <body>
   <header class="site-header">
     <div class="container">
+      <a href="{{ '/' | relative_url }}" class="site-title">{{ site.title }}</a>
+      <p class="site-description">{{ site.description }}</p>
       <nav class="site-nav">
-        <a href="{{ '/' | relative_url }}" class="site-title">{{ site.title }}</a>
-        <ul class="nav-links">
-          <li><a href="{{ '/' | relative_url }}">Home</a></li>
-          <li><a href="{{ '/blog' | relative_url }}">Blog</a></li>
-          <li><a href="{{ '/about' | relative_url }}">About</a></li>
+        <ul>
+          <li><a href="{{ '/' | relative_url }}">About</a></li>
+          <li><a href="{{ '/blog/' | relative_url }}">Writing</a></li>
+          <li><a href="{{ '/feed.xml' | relative_url }}">Feed</a></li>
         </ul>
       </nav>
     </div>
@@ -28,16 +29,12 @@
   </main>
 
   <footer class="site-footer">
-    <div class="container">
-      <div class="footer-content">
-        <div class="social-links">
-          <a href="https://twitter.com/ad1tyabharadwaj" target="_blank" rel="noopener">Twitter</a>
-          <a href="https://github.com/adityabharadwaj198" target="_blank" rel="noopener">GitHub</a>
-          <a href="https://www.linkedin.com/in/aditya-bharadwaj-28a91844/" target="_blank" rel="noopener">LinkedIn</a>
-        </div>
-        <p class="copyright">&copy; {{ site.time | date: '%Y' }} {{ site.title }}. All rights reserved.</p>
-      </div>
+    <div class="social-links">
+      <a href="https://twitter.com/ad1tyabharadwaj" target="_blank" rel="noopener">Twitter</a>
+      <a href="https://github.com/adityabharadwaj198" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/aditya-bharadwaj-28a91844/" target="_blank" rel="noopener">LinkedIn</a>
     </div>
+    <p class="copyright">&copy; {{ site.time | date: '%Y' }} {{ site.title }}. All rights reserved.</p>
   </footer>
 </body>
 </html> 

@@ -1,227 +1,261 @@
 @import "{{ site.theme }}";
 
-// Custom styles
+/* Base styles */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.6;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
 }
 
-// Site header
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* Header and Navigation */
 .site-header {
-  background: linear-gradient(120deg, #2c3e50, #3498db);
-  padding: 1rem 0;
-  margin-bottom: 2rem;
-}
-
-.site-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 1rem;
+  padding: 40px 0;
+  text-align: center;
 }
 
 .site-title {
-  color: white;
-  font-size: 1.5rem;
-  text-decoration: none;
+  font-size: 2.5rem;
   font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+  display: block;
 }
 
-.nav-links {
-  display: flex;
-  gap: 1.5rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.site-description {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.site-nav {
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
   
   a {
-    color: white;
-    text-decoration: none;
-    transition: opacity 0.3s ease;
+    font-size: 1.1rem;
+    color: #666;
     
     &:hover {
-      opacity: 0.8;
+      color: #007bff;
+      text-decoration: none;
     }
   }
 }
 
-// Main content
+/* Main Content */
 .main-content {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 1rem;
-  
-  h1, h2, h3 {
-    color: #2c3e50;
-  }
-  
-  a {
-    color: #3498db;
-    text-decoration: none;
-    transition: color 0.3s ease;
-    
-    &:hover {
-      color: #2980b9;
-      text-decoration: underline;
-    }
-  }
+  padding: 40px 0;
 }
 
-// Blog styles
-.blog-index {
+/* Blog Post List */
+.post-list {
+  margin-top: 40px;
+  
   .post-preview {
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid #eee;
+    margin-bottom: 40px;
     
-    &:last-child {
-      border-bottom: none;
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      
+      a {
+        color: #333;
+        
+        &:hover {
+          text-decoration: underline;
+        }
+      }
     }
-  }
-  
-  .post-meta {
-    color: #666;
-    font-size: 0.9rem;
-    margin: 0.5rem 0;
-  }
-  
-  .post-excerpt {
-    margin: 1rem 0;
-  }
-  
-  .read-more {
-    display: inline-block;
-    margin-top: 0.5rem;
+    
+    .post-meta {
+      color: #999;
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
+    
+    .post-excerpt {
+      color: #555;
+      line-height: 1.7;
+    }
+    
+    .read-more {
+      display: inline-block;
+      margin-top: 15px;
+      color: #007bff;
+      font-weight: bold;
+    }
   }
 }
 
-// Post styles
+/* Single Post */
 .post {
-  .post-header {
-    margin-bottom: 2rem;
-  }
-  
-  .post-title {
-    margin-bottom: 0.5rem;
+  h1 {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
   }
   
   .post-meta {
-    color: #666;
+    color: #999;
     font-size: 0.9rem;
+    margin-bottom: 30px;
   }
   
   .post-content {
-    margin-bottom: 3rem;
+    color: #333;
+    line-height: 1.8;
     
-    h2, h3 {
-      margin-top: 2rem;
+    h2 {
+      font-size: 2rem;
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+    
+    h3 {
+      font-size: 1.5rem;
+      margin-top: 30px;
+      margin-bottom: 15px;
     }
     
     p {
-      margin-bottom: 1.5rem;
-    }
-    
-    img {
-      max-width: 100%;
-      height: auto;
-      margin: 1.5rem 0;
+      margin-bottom: 20px;
     }
     
     code {
-      background: #f8f9fa;
-      padding: 0.2rem 0.4rem;
+      background-color: #f0f0f0;
+      padding: 2px 5px;
       border-radius: 3px;
     }
     
     pre {
-      background: #f8f9fa;
-      padding: 1rem;
+      background-color: #f0f0f0;
+      padding: 15px;
       border-radius: 5px;
       overflow-x: auto;
+      margin-bottom: 20px;
     }
   }
   
-  .post-footer {
-    margin-top: 3rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid #eee;
-  }
-  
   .post-tags {
-    margin-bottom: 1.5rem;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    color: #666;
+    font-size: 0.9rem;
     
     .tag {
       display: inline-block;
-      padding: 0.2rem 0.6rem;
-      margin: 0.2rem;
-      background: #f8f9fa;
-      border-radius: 15px;
-      font-size: 0.9rem;
+      background-color: #eee;
+      padding: 5px 10px;
+      border-radius: 3px;
+      margin-right: 8px;
+      color: #555;
+      
+      &:hover {
+        background-color: #ddd;
+        text-decoration: none;
+      }
     }
   }
   
   .post-navigation {
     display: flex;
     justify-content: space-between;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
     
     a {
-      padding: 0.5rem 1rem;
-      background: #f8f9fa;
-      border-radius: 4px;
+      color: #007bff;
+      font-weight: bold;
       
       &:hover {
-        background: #e9ecef;
+        text-decoration: underline;
       }
     }
   }
 }
 
-// Footer
+/* Footer */
 .site-footer {
-  margin-top: 4rem;
-  padding: 2rem 0;
-  background: #f8f9fa;
+  text-align: center;
+  padding: 40px 0;
+  color: #999;
+  font-size: 0.9rem;
+  border-top: 1px solid #eee;
+  margin-top: 40px;
   
-  .footer-content {
-    text-align: center;
-  }
-  
-  .copyright {
-    margin-top: 1rem;
-    color: #666;
-  }
-}
-
-// Social links styling
-.social-links {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  
-  a {
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    background: white;
-    transition: all 0.3s ease;
+  .social-links {
+    margin-bottom: 15px;
     
-    &:hover {
-      background: #e9ecef;
-      transform: translateY(-2px);
+    a {
+      color: #999;
+      margin: 0 10px;
+      
+      &:hover {
+        color: #007bff;
+      }
     }
   }
 }
 
-// Tech stack badges
-.tech-stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 1rem 0;
+/* Home page specific styles */
+.home-content {
+  h1 {
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+  }
   
-  .badge {
-    padding: 0.25rem 0.75rem;
-    border-radius: 15px;
-    background: #e9ecef;
-    font-size: 0.9rem;
+  h2 {
+    font-size: 1.8rem;
+    margin-top: 30px;
+    margin-bottom: 15px;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    
+    li {
+      margin-bottom: 10px;
+    }
+  }
+  
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+    
+    .badge {
+      background-color: #eee;
+      padding: 5px 10px;
+      border-radius: 3px;
+      font-size: 0.9rem;
+      color: #555;
+    }
   }
 } 
