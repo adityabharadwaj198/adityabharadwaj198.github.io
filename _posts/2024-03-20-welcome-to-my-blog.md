@@ -6,26 +6,35 @@ categories: [blog]
 tags: [welcome, introduction]
 ---
 
-Welcome to my blog! This is where I'll be sharing my thoughts, experiences, and insights about technology, software development, and other topics that interest me.
+Get a peek into my mind. 
 
 ## What to Expect
 
 In this blog, I'll be writing about:
 
-- Software development best practices
-- Technology trends and insights
 - Personal projects and experiences
-- Book reviews and recommendations
-- And much more!
+- My experiences with building my own X 
+- My experiences navigating the software engineering world
+- Book / Album reviews and Songs / Artist recommendations
+- History? Prehistoric India, IVC, Proto-Indo-Europeans [controversial stuff lol], Vedic age etc. 
 
 ## Why I Started This Blog
 
-I believe in the power of sharing knowledge and experiences. Through this blog, I hope to:
+I am lazy and I never thought of writing anything more than what the educational curriculum 
+demanded from me, but I have recently started to journal sometimes just to feel saner. 
+I can't pin-point what it does for me, other than make me feel good in some way.
+For all I know it could be placebo. Anywhoo, I keep reading & learning a 
+lot of interesting things, that might be of interest in general to the
+rest of the world (trust me), and what better way to explain something 
+than to write it down in your own words. So this is my attempt at writing. 
+
+Through the blog I want to: 
 
 1. Document my learning journey
 2. Share insights that might help others
 3. Connect with like-minded individuals
 4. Build a portfolio of my thoughts and expertise
+5. Build my own corner of the internet :)
 
 ## Stay Connected
 
