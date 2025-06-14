@@ -4,7 +4,7 @@ title: Aditya Bharadwaj
 description: Technology Brother
 ---
 
-# 👋 Hi, I'm Aditya Bharadwaj
+# 👋 Hi, I'm Aditya
 
 Software engineer, heavy lifter, technology enthusiast. Curious about startups, history, space, geopolitics, climate, energy, physics and math. 
 
