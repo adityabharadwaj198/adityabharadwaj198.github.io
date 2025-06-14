@@ -22,11 +22,11 @@ When I'm not coding, you can find me exploring new music, working out, reading h
 ### Professional Profiles
 - 👔 [LinkedIn](https://www.linkedin.com/in/aditya-bharadwaj-28a91844/)
 - 💻 [GitHub](https://github.com/adityabharadwaj198/) - Check out my projects / OSS contributions.
-- 📄 [Resume](https://drive.google.com/file/d/1wMlSeLcq4WZmv5cWWQ_Es5ahJee-0BVd/view?usp=sharing) - My professional journey
+- 📄 [Resume](https://drive.google.com/file/d/1wMlSeLcq4WZmv5cWWQ_Es5ahJee-0BVd/view?usp=sharing)
 
 ### Social Media
 - 🐦 [Twitter](https://twitter.com/ad1tyabharadwaj) - shitposting
-- 🎵 [Spotify](https://open.spotify.com/user/adityabharadwaj198?si=f869c01e3ce34415) - check out my playlists. I put a lot of thought in each one.
+- 🎵 [Spotify](https://open.spotify.com/user/adityabharadwaj198?si=f869c01e3ce34415) - check out my playlists. I put a lot of thought into making each one.
 
 
 ## 🛠️ Tech Stack
