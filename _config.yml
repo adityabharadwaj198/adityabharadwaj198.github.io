@@ -23,12 +23,20 @@ collections:
   projects:
     output: true
     permalink: /projects/:path/
+  notes:
+    output: true
+    permalink: /notes/:path/
 
 # Default front matter
 defaults:
   - scope:
       path: ""
       type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+      type: "notes"
     values:
       layout: "post"
   - scope:
