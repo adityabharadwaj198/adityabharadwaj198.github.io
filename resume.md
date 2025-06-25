@@ -17,7 +17,7 @@ permalink: /resume/
 **Marqo.ai** | Melbourne, Victoria, Australia | September 2024 - June 2025
 
 - Part of Marqo's open source team working on the core product
-- Led design & implementation of partial updates, enabling customers to update document fields like number of sales, reviews etc. in real time without having to vectorise a document. The feature was critical for onboarding a customer who later signed a multi-million dollar contract. 
+- Led design & implementation of partial updates, enabling customers to update document fields like number of sales, reviews etc. in real time without having to vectorise a document. The feature was critical for onboarding a customer who later signed a multi-million dollar contract. Marqo uses this feature as a key selling point on their home page at marqo.ai, highlighting how it enables "Smarter Search, Higher Conversion" by optimizing search conversion using click-stream, purchase and event data to create a personalized experience that knows what customers are looking for - better than they do.
 **Tech used:** Python, Vespa DB, Docker
 - Led design & implementation of a testing pipeline that run backwards compatibility and rollback tests against the to-be released Marqo docker image & previously released Marqo images. Saved 2.5+ days worth of Senior SWE time per two week sprint. 
 **Tech used:** Python, Docker, GitHub actions
