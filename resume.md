@@ -7,7 +7,6 @@ permalink: /resume/
 # Aditya Bharadwaj
 
 **Email:** adityabharadwaj198@gmail.com  
-**Phone:** +919113955012  
 **Location:** Bengaluru, Karnataka, India  
 
 ---
