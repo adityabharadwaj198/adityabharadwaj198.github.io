@@ -4,6 +4,7 @@ title: "Welcome to My Blog"
 date: 2024-03-20
 categories: [blog]
 tags: [welcome, introduction]
+excerpt: "Get a peek into my mind. I'll be writing about personal projects, software engineering experiences, book reviews, and even some controversial history topics like prehistoric India and the Vedic age."
 ---
 
 Get a peek into my mind. 

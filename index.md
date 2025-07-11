@@ -28,6 +28,37 @@ When I'm not coding, you can find me exploring new music, working out, reading h
 - 🐦 [Twitter](https://twitter.com/ad1tyabharadwaj) - shitposting
 - 🎵 [Spotify](https://open.spotify.com/user/adityabharadwaj198?si=f869c01e3ce34415) - check out my playlists. I put a lot of thought into making each one.
 
+## 📝 Latest Blog Posts
+
+<div class="latest-posts">
+  {% for post in site.posts limit:3 %}
+    <article class="post-card">
+      <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+      <div class="post-meta">
+        <time datetime="{{ post.date | date_to_xmlschema }}">
+          {{ post.date | date: "%B %-d, %Y" }}
+        </time>
+        {% if post.tags.size > 0 %}
+          <span class="post-tags">
+            {% for tag in post.tags %}
+              <a href="{{ '/tags/' | append: tag | relative_url }}" class="tag">{{ tag }}</a>
+            {% endfor %}
+          </span>
+        {% endif %}
+      </div>
+      {% if post.excerpt %}
+        <div class="post-excerpt">
+          {{ post.excerpt }}
+        </div>
+      {% endif %}
+      <a href="{{ post.url | relative_url }}" class="read-more">Read More →</a>
+    </article>
+  {% endfor %}
+  
+  <div class="view-all-posts">
+    <a href="{{ '/blog/' | relative_url }}" class="btn">View All Posts</a>
+  </div>
+</div>
 
 ## 🛠️ Tech Stack
 
