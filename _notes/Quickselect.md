@@ -4,7 +4,7 @@ title: "QuickSelect"
 date: 2025-07-10
 categories: [blog]
 ---
-How to write QuickSelect & how to avoid worst case time complexity of O(N^2)
+How to write QuickSelect & how to avoid worst case time complexity of O(N²)
 
 ## QuickSelect 
 
@@ -97,7 +97,7 @@ class Solution {
 }
  ```
 
-Ignore the comments if you can. This algorithm's time complexity is O(N) on an average but quickly shoots up to O(N^2) in worst case. Can you think of what that case is? 
+Ignore the comments if you can. This algorithm's time complexity is O(N) on an average but quickly shoots up to O(N²) in worst case. Can you think of what that case is? 
 
 Similar to QuickSort it's when the array is already sorted and we keep picking the last element as the pivot. Note that QuickSort's average case TC is O(NlogN) & not O(N). 
 
@@ -165,5 +165,5 @@ T(n) = T(n - 1) + O(n)
 ```
 **This is extremely rare if the pivot is randomized, it requires consistent bad luck in pivot selection.**
 
-So this tells you that average case time complexity of a quick select algorithm is O(N). Worst case is still O(N^2) but it's likelyhood can be reduced a lot if you do randomised pivot selection. 
+So this tells you that average case time complexity of a quick select algorithm is O(N). Worst case is still O(N²) but it's likelyhood can be reduced a lot if you do randomised pivot selection. 
 
