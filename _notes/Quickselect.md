@@ -1,20 +1,20 @@
 ---
 layout: post
-title: "How to write quickselect & how to avoid worst case time complexity of O(N^2)"
+title: "QuickSelect"
 date: 2025-07-10
 categories: [blog]
 ---
+How to write QuickSelect & how to avoid worst case time complexity of O(N^2)
 
+## QuickSelect 
 
-## Quickselect 
-
-Quickselect is a useful algorithm usually used for problems like ["Kth largest element"](https://leetcode.com/problems/kth-largest-element-in-an-array) or "Kth smallest element" (Unfortunately there's no question like this on leetcode but you get the gist). It would be helpful to checkout this [Quickselect](https://leetcode.com/problem-list/quickselect/) tag on LC to see the type of problems Quickselect can help with. 
+Quickselect is a useful algorithm usually used for problems like ["Kth largest element"](https://leetcode.com/problems/kth-largest-element-in-an-array) or "Kth smallest element" (Unfortunately there's no question like this on leetcode but you get the gist). It would be helpful to checkout this [QuickSelect](https://leetcode.com/problem-list/quickselect/) tag on LC to see the type of problems QuickSelect can help with. 
 
 You might be thinking but these problems can be solved with a max heap or a min heap right? Right. And a heap makes it fairly easy too, just identify the type of problem (Kth largest will use a min heap & Kth smallest will use a max heap) and solve it in O(NlogK) time, and be done with it. 
 
-However, life isn't this easy always, and some of the interviewers (Meta *cough cough*) expect a Quickselect solution to these problems. I can't even blame them, considering that the average case complexity of such a algorithm is O(N). Then again with a small enough K, the heap solution could be O(N) as well but you get what I mean. 
+However, life isn't this easy always, and some of the interviewers (Meta *cough cough*) expect a QuickSelect solution to these problems. I can't even blame them, considering that the average case complexity of such a algorithm is O(N). Then again with a small enough K, the heap solution could be O(N) as well but you get what I mean. 
 
-So let's go over how a Quickselect algorithm works and how to derive it on the spot. 
+So let's go over how a QuickSelect algorithm works and how to derive it on the spot. 
 
 QuickSelect is from a family of algorithms (or rather a nuclear family considering the size) that are based on QuickSort. 
 Now, how does QuickSelect work? 
@@ -23,7 +23,7 @@ Imagine we're solving this problem:
 ["Kth largest element"](https://leetcode.com/problems/kth-largest-element-in-an-array)
 
 Here, we want to find the Kth largest element. In a monotonically increasing array, the Kth largest element will always lie at the N - kth index (N being the length). 
-So we do exactly that, we look at the N - kth index from the start. Particularly, we look at using Quickselect to correctly place an element at the N - kth position such that all the elements before the N - kth position are smaller than the element at arr[n - k], and all the elements after index n - k, are greater than arr[n - k].
+So we do exactly that, we look at the N - kth index from the start. Particularly, we look at using QuickSelect to correctly place an element at the N - kth position such that all the elements before the N - kth position are smaller than the element at arr[n - k], and all the elements after index n - k, are greater than arr[n - k].
 
 ```
 class Solution {
