@@ -3,8 +3,8 @@ layout: post
 title: "How to write quickselect & how to avoid worst case time complexity of O(N^2)"
 date: 2025-07-10
 categories: [blog]
-tags: [vectors, vector-search, vector-db, hnsw]
 ---
+
 
 ## Quickselect 
 
