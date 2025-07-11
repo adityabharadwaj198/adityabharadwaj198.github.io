@@ -2,7 +2,8 @@
 layout: post
 title: "QuickSelect"
 date: 2025-07-10
-categories: [blog]
+categories: [notes]
+tags: [algorithms, quicksort, quickselect, leetcode]
 ---
 How to write QuickSelect & how to avoid worst case time complexity of O(N²)
 
