@@ -1,4 +1,84 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-07-22T15:34:54+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Aditya Bharadwaj</title><subtitle>Technology Brother</subtitle><entry><title type="html">Get your head in the game</title><link href="http://localhost:4000/blog/2025/07/22/Get-your-head-in-the-game.html" rel="alternate" type="text/html" title="Get your head in the game" /><published>2025-07-22T00:00:00+05:30</published><updated>2025-07-22T00:00:00+05:30</updated><id>http://localhost:4000/blog/2025/07/22/Get%20your%20head%20in%20the%20game</id><content type="html" xml:base="http://localhost:4000/blog/2025/07/22/Get-your-head-in-the-game.html"><![CDATA[<p>Things I need to do to stay maximally productive (I forget these frequently)</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-07-25T20:09:03+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Aditya Bharadwaj</title><subtitle>Technology Brother</subtitle><entry><title type="html">What the heck is the METEOR Score (and why I added it to Promptfoo)</title><link href="http://localhost:4000/blog/2025/07/25/meteor-score.html" rel="alternate" type="text/html" title="What the heck is the METEOR Score (and why I added it to Promptfoo)" /><published>2025-07-25T00:00:00+05:30</published><updated>2025-07-25T00:00:00+05:30</updated><id>http://localhost:4000/blog/2025/07/25/meteor-score</id><content type="html" xml:base="http://localhost:4000/blog/2025/07/25/meteor-score.html"><![CDATA[<p>I was recently going over Chip Huyen’s AI engineering book (if you want a quick beginner friendly compilation you should check out the book). In Chapter 3 of the book titled Evaluation Methodology, she mentions different kinds of Lexical similarity metrics - which include BLEU, METEOR &amp; ROUGE. It reminded me of the time when I implemented the METEOR metric for a eval + ai red teaming tool called Promptfoo. Let’s dive into it.</p>
+
+<h2 id="first-off--what-is-meteor">First off — what is METEOR?</h2>
+
+<p>METEOR stands for Metric for Evaluation of Translation with Explicit ORdering. Cool acronym, what does it do? idea behind it is:</p>
+
+<p>“How similar is the model’s output to what I wanted it to say?”</p>
+
+<p>It’s not just a simple string match. METEOR goes beyond that, it checks if the words match, whether they have the same root (stems), and even whether they’re synonyms. Oh, and it also factors in the word order.</p>
+
+<h2 id="so-why-did-i-build-this-for-promptfoo">So why did I build this for Promptfoo?</h2>
+<p>Promptfoo is a powerful open-source framework to test and benchmark LLM outputs. It supports all kinds of evaluation methods — from latency to cost to BLEU (I implemented this too!), GLEU, ROUGE and even model-graded evaluations.</p>
+
+<p>But there was a missing piece in the lexical similarity toolkit. What we needed was a metric that:</p>
+
+<p>Works well for short, structured outputs (like translations or summaries)
+Can account for minor word reordering
+Supports multiple valid reference outputs
+Understands synonyms and stems</p>
+
+<p><em>Oh, and they had an open issue where a Promptfoo user asked for being able to use the METEOR metric lol.</em></p>
+
+<p>So I dived right into it and added METEOR support to Promptfoo.</p>
+
+<h2 id="how-meteor-works-with-examples">How METEOR works (with examples)</h2>
+
+<p>At a high level, METEOR compares a model-generated sentence with a reference by matching words in three stages:</p>
+
+<ol>
+  <li>
+    <p>Exact word match</p>
+  </li>
+  <li>
+    <p>Stemming match (e.g., “running” vs. “run”)</p>
+  </li>
+  <li>
+    <p>Synonym match (e.g., “nice” vs. “beautiful”, using WordNet)</p>
+  </li>
+</ol>
+
+<p>Once matches are found, it calculates precision and recall, applies a penalty for how fragmented the matches are (i.e. word order differences), and outputs a final score between 0 and 1.</p>
+
+<p>Here’s a quick example:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Reference:
+The weather is beautiful today
+
+Candidate outputs and expected scores (approximate):
+
+The weather is beautiful today → 1.0 (exact match)
+
+Today's weather is beautiful → ~0.85 (same words, reordered)
+
+The weather is nice today → ~0.7 (synonym match on "nice")
+
+It is sunny outside → ~0.3 (semantic drift, different words)
+</code></pre></div></div>
+<p>This kind of scoring is especially useful when there’s more than one “acceptable” phrasing — something that comes up constantly in LLM outputs.</p>
+
+<p>Unlike BLEU or Levenshtein, METEOR gives partial credit for “close enough” matches while still penalizing structural changes when they matter.</p>
+
+<h2 id="how-to-use-meteor-in-promptfoo">How to use METEOR in Promptfoo</h2>
+
+<p>I wrote some documentation as part of my PR as well so I may as well point you directly to the documentation: https://www.promptfoo.dev/docs/configuration/expected-outputs/deterministic/#meteor</p>
+
+<h2 id="when-should-you-use-meteor">When should you use METEOR?</h2>
+<p>If your tests are judging:</p>
+
+<ul>
+  <li>Summaries</li>
+  <li>Translations</li>
+  <li>Short natural language answers</li>
+</ul>
+
+<p>Anywhere there’s more than one “valid” way to say something
+…it’s a great tool.</p>
+
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>Adding METEOR to Promptfoo was fun, both as a coding problem (chunking, synonyms, scoring!) and as a UX enhancement for LLM evaluators. I usually don’t code in Typescript so it was a great exercise in that sense! Here’s my PR if interested to check it out: https://github.com/promptfoo/promptfoo/pull/3776/files</p>
+
+<p>If you want to go beyond BLEU and get a more nuanced picture of output quality, give it a spin. Your tests will thank you. And your models might pass more often.</p>]]></content><author><name></name></author><category term="blog" /><category term="ai" /><category term="evals" /><category term="promptfoo" /><category term="lexical-similarity" /><summary type="html"><![CDATA[A quick dive into METEOR, a smarter evaluation metric for LLM outputs, and a behind-the-scenes look at how I implemented it for Promptfoo.]]></summary></entry><entry><title type="html">Get your head in the game</title><link href="http://localhost:4000/blog/2025/07/22/Get-your-head-in-the-game.html" rel="alternate" type="text/html" title="Get your head in the game" /><published>2025-07-22T00:00:00+05:30</published><updated>2025-07-22T00:00:00+05:30</updated><id>http://localhost:4000/blog/2025/07/22/Get%20your%20head%20in%20the%20game</id><content type="html" xml:base="http://localhost:4000/blog/2025/07/22/Get-your-head-in-the-game.html"><![CDATA[<p>Things I need to do to stay maximally productive (I forget these frequently)</p>
 
 <p>I like being productive, it makes me not hate myself. dw I like having fun too, but I wanna feel like I’ve really exhausted myself being productive so that having fun really pays off. I don’t like having fun if I’ve not worked enough.</p>
 
@@ -37,17 +117,23 @@ Another thing that I’ve found helpful is, to estimate the time required for a 
 
 <h2 id="vectors">Vectors</h2>
 
-<p>Vectors are interesting, they can pretty mean a lot of things in different contexts. In the context of the famed first programming language of every computer science student, they may mean an array of N numbers (where N = 1 to X). In the context of physics they may mean something that has a certain direction. î (magnitude along x axis), ĵ (magnitude along y axis), k̂ (magnitude along z axis). Any point in 3D space can be represented by [x, y, z] coordinates which can be called a vector. We represent a location on the map with a vector of 2 dimensions (latitude and longitude).</p>
+<p>Vectors are interesting, they can pretty mean a lot of things in different contexts. In the context of the famed first programming language of every computer science student (C++), they may mean an array of N numbers (where N = 1 to X). In the context of physics they may mean something that has a certain direction. î (magnitude along x axis), ĵ (magnitude along y axis), k̂ (magnitude along z axis). Any point in 3D space can be represented by [x, y, z] coordinates which can be called a vector. We represent a location on the map with a vector of 2 dimensions (latitude and longitude).</p>
 
 <p>To put it in context of the topic that we’re discussing, we can call vectors as arrays of length N, where N might be 3 (for a point in 3D space), 2 (for a point on a map), or even 768, 1024, 1536 etc. We just say N dimensions.</p>
 
 <h2 id="vector-embeddings">Vector embeddings</h2>
 
-<p>LLMs today are very powerful at one thing, they’re powerful at taking in a arbitrary piece of data (a word, a text, an image, an audio or even a video), and converting them to vector embeddings. These embeddings are just representations of the input (in our case a word, a text, an image, an audio or even a video) in N dimensions. The value of N depends on the LLM that we’re using, but to generalize we could say that an LLM is good at taking in an input, and spitting out a vector embedding.</p>
+<p>Models today are very powerful at one thing, they’re powerful at taking in a arbitrary piece of data (a word, a text, an image, an audio or even a video), and converting them to vector embeddings. These embeddings are just numerical representations of the input (in our case a word, a text, an image, an audio or even a video) that aim to capture meaning of the input, in N dimensions. The value of N depends on the Embedding Model that we’re using, but to generalize we could say that an Embedding Model is good at taking in an input, and spitting out a vector embedding.</p>
 
-<p>Let’s say for an example, that a piece of text “A red dress”, has a vector embedding as: [1, 2, 3], let’s say (again for example) that this was generated by an LLM that spits out 3 dimensional embeddings. LLMs today are so good, that if you actually input an image of a red dress &amp; the LLM had to spit out a 3 dimensional embedding, it would give out something like a [1.1, 2.1, 2.9] as an ouput. Do you see how close it is to the original vector of the query? Our model inherently knows that the query “A red dress” and an actual image of the red dress are similar things, and so it outputs similar embeddings for both.</p>
+<p>Let’s say for an example, that a piece of text “A red dress”, has a vector embedding as: [1, 2, 3], let’s say (again for example) that this was generated by an Embedding  that spits out 3 dimensional embeddings. Models today are so good, that if you actually input an image of a red dress &amp; the Embedding  had to spit out a 3 dimensional embedding, it would give out something like a [1.1, 2.1, 2.9] as an ouput. Do you see how close it is to the original vector of the query? Our model inherently knows that the query “A red dress” and an actual image of the red dress are similar things, and so it outputs similar embeddings for both.</p>
 
 <p>On a side note, a helpful tool to visualise vector embeddings for words in a 3D space is this embedding projector: https://projector.tensorflow.org/</p>
+
+<h3 id="whats-a-embedding-model">What’s a Embedding model?</h3>
+
+<ul>
+  <li>I mentioned an Embedding model in a couple of places above, so I thought I should clarify: Embedding Models are Models trained especially to produce embeddings. They include open source models like BERT, CLIP (Constrastive Language-Image Pre-training) and Sentence Transformers.</li>
+</ul>
 
 <h2 id="vector-databases">Vector databases</h2>
 
