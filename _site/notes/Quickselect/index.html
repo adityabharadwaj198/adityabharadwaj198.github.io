@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuickSelect - Aditya Bharadwaj</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>QuickSelect | Aditya Bharadwaj</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="QuickSelect" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="How to write QuickSelect &amp; how to avoid worst case time complexity of O(N²)" />
+<meta property="og:description" content="How to write QuickSelect &amp; how to avoid worst case time complexity of O(N²)" />
+<link rel="canonical" href="http://localhost:4000/notes/Quickselect/" />
+<meta property="og:url" content="http://localhost:4000/notes/Quickselect/" />
+<meta property="og:site_name" content="Aditya Bharadwaj" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-07-12T00:00:00+05:30" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="QuickSelect" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-07-12T00:00:00+05:30","datePublished":"2025-07-12T00:00:00+05:30","description":"How to write QuickSelect &amp; how to avoid worst case time complexity of O(N²)","headline":"QuickSelect","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/notes/Quickselect/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/picture.png"}},"url":"http://localhost:4000/notes/Quickselect/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H49KCRCGYJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-H49KCRCGYJ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-title">Aditya Bharadwaj</a>
+      <p class="site-description">Technology Brother</p>
+      <nav class="site-nav">
+        <ul>
+          <li><a href="/">About</a></li>
+          <li><a href="/blog/">Writing</a></li>
+          <li><a href="/resume/">Resume</a></li>
+          <li><a href="/notes/">Notes</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/feed.xml">Feed</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="container">
+      <article class="post">
+  <header class="post-header">
+    <h1 class="post-title">QuickSelect</h1>
+    <div class="post-meta">
+      <time datetime="2025-07-12T00:00:00+05:30">
+        July 12, 2025
+      </time>
+      
+      
+        • Categories: notes
+      
+    </div>
+  </header>
+
+  <div class="post-content">
+    <p>How to write QuickSelect &amp; how to avoid worst case time complexity of O(N²)</p>
+
+<h2 id="quickselect">QuickSelect</h2>
+
+<p>Quickselect is a useful algorithm usually used for problems like <a href="https://leetcode.com/problems/kth-largest-element-in-an-array">“Kth largest element”</a> or “Kth smallest element” (Unfortunately there’s no question like this on leetcode but you get the gist). It would be helpful to checkout this <a href="https://leetcode.com/problem-list/quickselect/">QuickSelect</a> tag on LC to see the type of problems QuickSelect can help with.</p>
+
+<p>You might be thinking but these problems can be solved with a max heap or a min heap right? Right. And a heap makes it fairly easy too, just identify the type of problem (Kth largest will use a min heap &amp; Kth smallest will use a max heap) and solve it in O(NlogK) time, and be done with it.</p>
+
+<p>However, life isn’t this easy always, and some of the interviewers (Meta <em>cough cough</em>) expect a QuickSelect solution to these problems. I can’t even blame them, considering that the average case complexity of such a algorithm is O(N). Then again with a small enough K, the heap solution could be O(N) as well but you get what I mean.</p>
+
+<p>So let’s go over how a QuickSelect algorithm works and how to derive it on the spot.</p>
+
+<p>QuickSelect is from a family of algorithms (or rather a nuclear family considering the size) that are based on QuickSort. 
+Now, how does QuickSelect work?</p>
+
+<p>Imagine we’re solving this problem: 
+<a href="https://leetcode.com/problems/kth-largest-element-in-an-array">“Kth largest element”</a></p>
+
+<p>Here, we want to find the Kth largest element. In a monotonically increasing array, the Kth largest element will always lie at the N - kth index (N being the length). 
+So we do exactly that, we look at the N - kth index from the start. Particularly, we look at using QuickSelect to correctly place an element at the N - kth position such that all the elements before the N - kth position are smaller than the element at arr[n - k], and all the elements after index n - k, are greater than arr[n - k].</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        
+        // if you want to search for kth largest element in a sorted (ascendingly sorted) array 
+        // you gotta look for n-kth element from the start. 
+        // recurse method will always give you the position at which the pivot that the recurse method chooses 
+        // will be inserted to make it a sorted array. In case of [3,2,1,5,6,4] at first it chose 4 as the pivot, and it ended up at 3rd index. 
+        // but if looking for 2nd largest, you need to choose such a pivot that it ends up in 6 - 2 = 4th index. 
+        // so in that case you will need to call recurse again. And you will need to keep calling in case it still doesn't give you the correct response. 
+        // -2, -1, 1, 2, 3, 4
+
+        int l = 0, r = nums.length - 1;
+        
+        while (l &lt;= r) {
+            int partitionIndex = recurseRandom(nums, l, r);
+            if (partitionIndex == nums.length - k) {
+                return nums[partitionIndex];
+            } else if (partitionIndex &lt; nums.length - k) {
+                l = partitionIndex + 1;
+            } else {
+                r = partitionIndex - 1;
+            }
+        }
+        return nums[nums.length - k];
+    }
+
+
+
+    public int getPartitionIndex(int[] nums, int l, int r) {
+        // [3,2,1,5,6,4]
+        /*
+        p = 0, pI = 5
+        i = 0, i &lt;= 5
+        p becoms 1
+        p becomes 2 
+        p becomes 3 
+        swap (nums, 3, 3) = stays the same, p becomes 4 
+        swap (nums, 4, 4) =&gt; stays the same, p becomes 5 
+
+        -1, -2, 4, 3, 1, 2 
+        This is a case where max values are in the middle of the array
+        pivotIndex = 5, p = 0, i = 0
+        -1 &lt; 2 so move on p = 1, i = 1
+        -2 &lt; 2 so move on p = 2, i = 2
+        4 &gt; 2 so swap it with itself swaP(nums, 2, 2); p = 2, i = 3 
+        3 &gt; 2 so swap it with itself swap(nums, 3, 3); p = 2, i = 4
+        1 &lt; 2 so you need to swap it with p ? 
+        */
+        int storeIndex = l;
+        int pivotIndex = r;
+        for (int i=l; i&lt;r; i++) { //
+            if (nums[i] &lt;= nums[pivotIndex]) {
+                swap(nums, i, storeIndex);
+                storeIndex++;
+            } 
+        }
+        swap(nums, storeIndex, pivotIndex); 
+        return storeIndex;
+    }
+
+    public void swap(int[] nums, int i, int j) {
+        if (i == j) {
+            return;
+        }
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}
+</code></pre></div></div>
+
+<p>Ignore the comments if you can. This algorithm’s time complexity is O(N) on an average but quickly shoots up to O(N²) in worst case. Can you think of what that case is?</p>
+
+<p>Similar to QuickSort it’s when the array is already sorted and we keep picking the last element as the pivot. Note that QuickSort’s average case TC is O(NlogN) &amp; not O(N).</p>
+
+<p>Anyway, I digress. Getting back to how to make QuickSelect work in such a manner that it’s TC is always O(N)? In comes something called Randomised QuickSelect (Okay I totally made that up - but Randomised QuickSort exists and there’s no reason why Randomised QuickSelect shouldn’t). Even with a Randomised QuickSelect you can’t always make sure that it’s TC will always be O(N), but it’s highly unlikely.</p>
+
+<p>Here, instead of choosing the same last element again and again as the pivot, we start choosing a random index everytime. This random index should obviously be inside the array.</p>
+
+<p>The above getPartitionIndex() method would become getPartitionIndexRandomised()</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+    public int getPartitionIndexRandomised(int[] nums, int l, int r) {
+        int storeIndex = l;
+        Random rand = new Random();
+        int pivotIndex = l + rand.nextInt(r - l + 1);
+        int pivotValue = nums[pivotIndex];
+        swap(nums, pivotIndex, r);
+        for (int i=l; i&lt;r; i++) { //
+            if (nums[i] &lt;= pivotValue) {
+                swap(nums, i, storeIndex);
+                storeIndex++;
+            }
+        }
+        swap(nums, storeIndex, r); // Swap storeIndex with r because r is where the pivotValue is (it was swapped earlier)
+        return storeIndex;
+    }
+
+</code></pre></div></div>
+
+<p>What are we doing differently here? We’re first of all using a random index as the pivot index every time (and we’re also moving it to the end of the array, this helps keep most of the algorithm same as the non-randomised one)</p>
+
+<p>Now let’s do the time complexity calculation:</p>
+
+<p>On average, the random pivot splits the array reasonably well, say around 25–75%, 50–50%, etc.</p>
+
+<p>So the recurrence is:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>T(n) = T(n/2) + O(n)     // average partitioning + one subarray recurse
+Using the Master Theorem or recursive tree analysis, this gives:
+
+T(n/2) = T(n/4) + O(n/2)  
+T(n/4) = T(n/8) + O(n/4)  
+T(n/8) = T(n/16) + O(n/8)
+T(n/2^n) = T(n/2^(n+1)) + O(n/2^n)  
+</code></pre></div></div>
+<p>Adding all of these will give you</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>T(n) = T(n/2^(n+1)) + O(n) +  O(n/2)  + O(n/4)  + O(n/8) + .... O(n/2^n) 
+
+O(n) +  O(n/2)  + O(n/4)  + O(n/8) + .... O(n/2^n)  = O(2n) (because n/2 + n/4 + n/8 + ... n / 2^n = n)
+
+T(n) = O(2n) ~ O(n)
+</code></pre></div></div>
+
+<p>Worst case it could be: O(n²)</p>
+
+<p>Pivot is always the maximum or minimum element</p>
+
+<p>Partitioning gives you subarrays of size n-1 and 0</p>
+
+<p>This gives recurrence:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>T(n) = T(n - 1) + O(n)
+     = O(n²)
+</code></pre></div></div>
+<p><strong>This is extremely rare if the pivot is randomized, it requires consistent bad luck in pivot selection.</strong></p>
+
+<p>So this tells you that average case time complexity of a quick select algorithm is O(N). Worst case is still O(N²) but it’s likelyhood can be reduced a lot if you do randomised pivot selection.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <div class="post-tags">
+      
+        Tags: 
+        
+          <a href="/tags/algorithms/" class="tag">algorithms</a>
+        
+          <a href="/tags/quicksort/" class="tag">quicksort</a>
+        
+          <a href="/tags/quickselect/" class="tag">quickselect</a>
+        
+          <a href="/tags/leetcode/" class="tag">leetcode</a>
+        
+      
+    </div>
+
+    <div class="post-navigation">
+      
+        <a class="prev" href="/notes/system-design-foundations/">&laquo; System design mind map</a>
+      
+      
+    </div>
+  </footer>
+</article> 
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="social-links">
+      <a href="https://twitter.com/ad1tyabharadwaj" target="_blank" rel="noopener">Twitter</a>
+      <a href="https://github.com/adityabharadwaj198" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/aditya-bharadwaj-28a91844/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+    <p class="copyright">&copy; 2025 Aditya Bharadwaj. All rights reserved.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="/assets/js/main.js"></script>
+</body>
+</html> 

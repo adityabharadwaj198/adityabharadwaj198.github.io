@@ -230,4 +230,212 @@ a:hover {
   color: #555;
 }
 
+/* Tag Pages */
+.tags-page h1 {
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+  text-align: center;
+}
+.tags-page .tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+.tags-page .tags-list .tag-item .tag-link {
+  display: inline-block;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  padding: 10px 15px;
+  border-radius: 20px;
+  color: #495057;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.tags-page .tags-list .tag-item .tag-link:hover {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+.tags-page .tags-list .tag-item .tag-link .tag-name {
+  font-weight: 500;
+}
+.tags-page .tags-list .tag-item .tag-link .tag-count {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-left: 5px;
+}
+
+.tag-page .tag-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.tag-page .tag-header h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+.tag-page .tag-header p {
+  color: #666;
+  font-size: 1.1rem;
+}
+.tag-page .posts-list .post-preview {
+  margin-bottom: 40px;
+  padding: 25px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.tag-page .posts-list .post-preview:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+.tag-page .posts-list .post-preview .post-header {
+  margin-bottom: 15px;
+}
+.tag-page .posts-list .post-preview .post-header .post-title {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+.tag-page .posts-list .post-preview .post-header .post-title a {
+  color: #333;
+}
+.tag-page .posts-list .post-preview .post-header .post-title a:hover {
+  color: #007bff;
+  text-decoration: none;
+}
+.tag-page .posts-list .post-preview .post-header .post-meta {
+  color: #999;
+  font-size: 0.9rem;
+}
+.tag-page .posts-list .post-preview .post-excerpt {
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 15px;
+}
+.tag-page .posts-list .post-preview .post-tags .tag {
+  display: inline-block;
+  background-color: #eee;
+  padding: 4px 8px;
+  border-radius: 12px;
+  margin-right: 6px;
+  color: #555;
+  font-size: 0.85rem;
+}
+.tag-page .posts-list .post-preview .post-tags .tag:hover {
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+}
+.tag-page .tag-navigation {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+.tag-page .tag-navigation .back-to-tags {
+  display: inline-block;
+  color: #007bff;
+  font-weight: 500;
+  text-decoration: none;
+}
+.tag-page .tag-navigation .back-to-tags:hover {
+  text-decoration: underline;
+}
+
+/* Latest Blog Posts Section */
+.latest-posts {
+  margin: 30px 0;
+}
+.latest-posts .post-card {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 25px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.latest-posts .post-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+.latest-posts .post-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+.latest-posts .post-card h3 a {
+  color: #333;
+}
+.latest-posts .post-card h3 a:hover {
+  color: #007bff;
+  text-decoration: none;
+}
+.latest-posts .post-card .post-meta {
+  color: #999;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.latest-posts .post-card .post-meta time {
+  font-style: italic;
+}
+.latest-posts .post-card .post-meta .post-tags .tag {
+  display: inline-block;
+  background-color: #f0f0f0;
+  padding: 3px 8px;
+  border-radius: 12px;
+  margin-right: 5px;
+  color: #666;
+  font-size: 0.8rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.latest-posts .post-card .post-meta .post-tags .tag:hover {
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+}
+.latest-posts .post-card .post-excerpt {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+.latest-posts .post-card .read-more {
+  display: inline-block;
+  color: #007bff;
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.latest-posts .post-card .read-more:hover {
+  text-decoration: underline;
+}
+.latest-posts .view-all-posts {
+  text-align: center;
+  margin-top: 30px;
+}
+.latest-posts .view-all-posts .btn {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.latest-posts .view-all-posts .btn:hover {
+  background-color: #0056b3;
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
 /*# sourceMappingURL=style.css.map */

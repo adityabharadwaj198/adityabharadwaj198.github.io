@@ -4,7 +4,7 @@ title: "What the heck is the METEOR Score (and why I added it to Promptfoo)"
 date: 2025-07-25
 categories: [blog]
 tags: [ai, evals, promptfoo, lexical-similarity]
-excerpt: "A quick dive into METEOR, a smarter evaluation metric for LLM outputs — and a behind-the-scenes look at how I implemented it for Promptfoo."
+excerpt: "A quick dive into METEOR, a smarter evaluation metric for LLM outputs, and a behind-the-scenes look at how I implemented it for Promptfoo."
 ---
 
 I was recently going over Chip Huyen's AI engineering book (if you want a quick beginner friendly compilation you should check out the book). In Chapter 3 of the book titled Evaluation Methodology, she mentions different kinds of Lexical similarity metrics - which include BLEU, METEOR & ROUGE. It reminded me of the time when I implemented the METEOR metric for a eval + ai red teaming tool called Promptfoo. Let's dive into it. 
@@ -78,6 +78,6 @@ Anywhere there’s more than one “valid” way to say something
 …it’s a great tool.
 
 ## Final Thoughts
-Adding METEOR to Promptfoo was fun, both as a coding problem (chunking, synonyms, scoring!) and as a UX enhancement for LLM evaluators. I usually don't code in Typescript so it was a great exercise in that sense! 
+Adding METEOR to Promptfoo was fun, both as a coding problem (chunking, synonyms, scoring!) and as a UX enhancement for LLM evaluators. I usually don't code in Typescript so it was a great exercise in that sense! Here's my PR if interested to check it out: https://github.com/promptfoo/promptfoo/pull/3776/files
 
 If you want to go beyond BLEU and get a more nuanced picture of output quality, give it a spin. Your tests will thank you. And your models might pass more often. 

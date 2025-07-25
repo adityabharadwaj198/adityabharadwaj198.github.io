@@ -28,6 +28,7 @@
           <li><a href="{{ '/blog/' | relative_url }}">Writing</a></li>
           <li><a href="{{ '/resume/' | relative_url }}">Resume</a></li>
           <li><a href="{{ '/notes/' | relative_url }}">Notes</a></li>
+          <li><a href="{{ '/tags/' | relative_url }}">Tags</a></li>
           <li><a href="{{ '/feed.xml' | relative_url }}">Feed</a></li>
         </ul>
       </nav>
@@ -48,5 +49,9 @@
     </div>
     <p class="copyright">&copy; {{ site.time | date: '%Y' }} {{ site.title }}. All rights reserved.</p>
   </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
 </body>
 </html> 
