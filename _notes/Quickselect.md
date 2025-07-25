@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "QuickSelect"
-date: 2025-07-10
+date: 2025-07-12
 categories: [notes]
 tags: [algorithms, quicksort, quickselect, leetcode]
 ---

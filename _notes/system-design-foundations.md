@@ -1,6 +1,7 @@
 ---
 title: "System design mind map"
 excerpt: "A comprehensive mind map covering the foundational topics and key concepts in system design, from concurrency and scaling to caching and load balancing."
+date: 2025-06-21
 ---
 
 These are some (not so) rough notes that I made while recently going through a system design course. 
