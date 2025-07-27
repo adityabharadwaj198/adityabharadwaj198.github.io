@@ -25,10 +25,11 @@ body {
 }
 
 a {
-  color: #007bff;
+  color: #8B4513; /* Changed from #007bff to a warm brown that fits the parchment theme */
   text-decoration: none;
   
   &:hover {
+    color: #A0522D; /* Darker brown on hover */
     text-decoration: underline;
   }
 }
@@ -437,10 +438,10 @@ a {
       margin-bottom: 10px;
       
       a {
-        color: #333;
+        color: #8B4513; /* Changed from #333 to match the new link color */
         
         &:hover {
-          color: #007bff;
+          color: #A0522D; /* Darker brown on hover */
           text-decoration: none;
         }
       }
@@ -466,13 +467,13 @@ a {
           padding: 3px 8px;
           border-radius: 12px;
           margin-right: 5px;
-          color: #666;
+          color: #8B4513; /* Changed from #666 to match new theme */
           font-size: 0.8rem;
           text-decoration: none;
           transition: all 0.2s ease;
           
           &:hover {
-            background-color: #007bff;
+            background-color: #8B4513; /* Changed from #007bff */
             color: white;
             text-decoration: none;
           }
@@ -488,12 +489,13 @@ a {
     
     .read-more {
       display: inline-block;
-      color: #007bff;
+      color: #8B4513; /* Changed from #007bff */
       font-weight: 500;
       text-decoration: none;
       font-size: 0.95rem;
       
       &:hover {
+        color: #A0522D; /* Darker brown on hover */
         text-decoration: underline;
       }
     }
@@ -505,7 +507,7 @@ a {
     
     .btn {
       display: inline-block;
-      background-color: #007bff;
+      background-color: #8B4513; /* Changed from #007bff to match theme */
       color: white;
       padding: 12px 24px;
       border-radius: 6px;
@@ -514,10 +516,10 @@ a {
       transition: all 0.2s ease;
       
       &:hover {
-        background-color: #0056b3;
+        background-color: #A0522D; /* Changed from #0056b3 to darker brown */
         text-decoration: none;
         transform: translateY(-1px);
-        box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        box-shadow: 0 4px 8px rgba(139, 69, 19, 0.3); /* Changed shadow color */
       }
     }
   }
@@ -526,7 +528,7 @@ a {
 /* Running Pikachu */
 .running-pikachu {
   position: fixed;
-  bottom: 30px;
+  top: 30px;
   left: -80px;
   width: 60px;
   height: 60px;
@@ -559,7 +561,7 @@ a {
 
 /* Add bounce effect */
 .running-pikachu {
-  animation: runAcross 12s linear infinite, bounce 0.6s ease-in-out infinite;
+  animation: runAcross 12s linear infinite, bounce 0.5s ease-in-out infinite;
 }
 
 @keyframes bounce {
@@ -567,7 +569,7 @@ a {
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-15px);
+    transform: translateY(-7.5px);
   }
 }
 
