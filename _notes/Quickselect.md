@@ -24,7 +24,8 @@ Imagine we're solving this problem:
 ["Kth largest element"](https://leetcode.com/problems/kth-largest-element-in-an-array)
 
 Here, we want to find the Kth largest element. In a monotonically increasing array, the Kth largest element will always lie at the N - kth index (N being the length). 
-So we do exactly that, we look at the N - kth index from the start. Particularly, we look at using QuickSelect to correctly place an element at the N - kth position such that all the elements before the N - kth position are smaller than the element at arr[n - k], and all the elements after index n - k, are greater than arr[n - k].
+So we do exactly that, we look at the N - kth index from the start, while we try to place numbers in their correct position using the Quickselect algorithm. When we find an element who was supposed to be at index N - k, we return that number - since we are sure that Quickselect would've positioned the element correctly in the array.
+More specifically, we look at using QuickSelect to correctly place an element at the N - kth position such that all the elements before the N - kth position are smaller than the element at arr[n - k], and all the elements after index n - k, are greater than arr[n - k].
 
 ```
 class Solution {
@@ -32,16 +33,21 @@ class Solution {
         
         // if you want to search for kth largest element in a sorted (ascendingly sorted) array 
         // you gotta look for n-kth element from the start. 
-        // recurse method will always give you the position at which the pivot that the recurse method chooses 
-        // will be inserted to make it a sorted array. In case of [3,2,1,5,6,4] at first it chose 4 as the pivot, and it ended up at 3rd index. 
-        // but if looking for 2nd largest, you need to choose such a pivot that it ends up in 6 - 2 = 4th index. 
-        // so in that case you will need to call recurse again. And you will need to keep calling in case it still doesn't give you the correct response. 
-        // -2, -1, 1, 2, 3, 4
+        // Let's write a method getPartitionIndex(int[] nums, int l, int r) which whose responsibility is to always give return you the position at which "a pivot that the recurse method chooses". This position is called a partitionIndex, because you are effectively partitioning the array into 
+            1. elements lower than or equal to pivot 
+            2. elements higher than pivot. 
 
-        int l = 0, r = nums.length - 1;
+        How do you select a pivot you ask? 
+        // There are multiple pivot selection strategies. Some algorithms suggest selecting the first element, some select the last element. 
+        // However, these strategies could result in a worst case time complexity of O(N), where you are consistently selecting the largest number (this is specifically - in case your strategy is selecting the last element).
+
+        To avoid this, we apply randomised pivot selecting strategy. Sounds esoteric, but it's just about generating a number between l & r, and setting your pivotValue as the element you just generated randomly. More on this inside the getPartitionIndex(int[] nums, int l, int r) method [notice then name change?].
+
+
+        int l = 0, r = nums.length - 1; // initialize the high level variables 
         
-        while (l <= r) {
-            int partitionIndex = recurseRandom(nums, l, r);
+        while (l <= r) { 
+            int partitionIndex = getPartitionIndex(nums, l, r); // getPartitionIndex (the index where all elements left of the selected pivot are smaller than equal to pivot, and all elements right of the pivot are greater than equal to pivot)
             if (partitionIndex == nums.length - k) {
                 return nums[partitionIndex];
             } else if (partitionIndex < nums.length - k) {
@@ -56,35 +62,83 @@ class Solution {
 
 
     public int getPartitionIndex(int[] nums, int l, int r) {
-        // [3,2,1,5,6,4]
         /*
-        p = 0, pI = 5
-        i = 0, i <= 5
-        p becoms 1
-        p becomes 2 
-        p becomes 3 
-        swap (nums, 3, 3) = stays the same, p becomes 4 
-        swap (nums, 4, 4) => stays the same, p becomes 5 
+        An example: 
+        [3,2,1,5,6,4]
 
+        paritionIndex = 0, pivotIndex = 5
+        i = 0, nums[i] <= nums[5] (i.e 4) => swap paritionIndex with i (i.e swap (0, 0)). Increment partitionIndex
+        
+        paritionIndex becomes 1, i = 1. 
+        nums[1] <= nums[5] (which is 4) => swap partionIndex with i (i.e swap (1, 1)). Increment partitionIndex
+        
+        paritionIndex becomes 2, i becomes 2
+        nums[2] <= nums[5] (nums[5] is 4) => swap partionIndex with i (i.e swap (2, 2)). Increment partitionIndex
+
+        paritionIndex becomes 3, i becomes 3 
+        nums[3] > nums[5] (nums[5] was 4) => can't swap. partitionIndex should not be incremented. i gets incremented and becomes 4 
+
+        paritionIndex stays 3, i becomes 4 
+        nums[4] > nums[5] (nums[5] was 4) => can't swap. partitionIndex should not be incremented. i gets incremented and becomes 5. 
+        
+        i runs only till <r which was 4, so exit the loop. 
+
+        At the end, swap partitionIndex & r (r was 5). So we are effectively swapping 5 and 4.
+        Finally the array becomes [3, 2, 1, 4, 6, 5]
+
+        Another example: 
+        
         -1, -2, 4, 3, 1, 2 
         This is a case where max values are in the middle of the array
-        pivotIndex = 5, p = 0, i = 0
-        -1 < 2 so move on p = 1, i = 1
-        -2 < 2 so move on p = 2, i = 2
-        4 > 2 so swap it with itself swaP(nums, 2, 2); p = 2, i = 3 
-        3 > 2 so swap it with itself swap(nums, 3, 3); p = 2, i = 4
-        1 < 2 so you need to swap it with p ? 
+        pivotIndex = 5, paritionIndex = 0, i = 0
+
+        paritionIndex = 0, pivotIndex = 5
+        i = 0, nums[i] <= nums[5] (i.e 2) => swap partionIndex with i (i.e swap (0, 0)). Increment partitionIndex
+
+        paritionIndex becomes 1, i becomes 1. 
+        i = 1, nums[i] <= nums[5] (i.e 2) => swap partionIndex with i (i.e swap (1, 1)). Increment partitionIndex
+
+        paritionIndex becomes 2, i becomes 2. 
+        i = 2, nums[i] > nums[5] (i.e 2) => can't swap.  partitionIndex should not be incremented. i gets incremented and becomes 3. 
+
+        paritionIndex stays 2, i becomes 3
+        i = 3, nums[i] > nums[5] (i.e 2) => can't swap. partitionIndex should not be incremented. i gets incremented and becomes 4. 
+
+        paritionIndex stays 2, i becomes 4
+        i = 3, nums[i] <= nums[5] (i.e 2) => swap partionIndex with i (i.e swap (2, 4)). Increment partitionIndex. i gets incremented and becomes 5. 
+        
+        Array becomes [-1, -2, 1, 3, 4, 2]
+
+        Finally after the for loop. swap partitionIndex & r (r was 5). So we are effectively swapping partitionIndex = 3 and r = 5. 
+
+        Array becomes [-1, -2, 1, 2, 4, 3]. Finally, our chosen pivot (value 2 at the chosen pivotIndex 5), has landed in it's correct sorted place. 
+        We return partitionIndex (partitionIndex was 3) back to the function above. 
+
+
+
         */
-        int storeIndex = l;
+        /*
+            strategy here is to select the pivot as the last element of the array. In that case, pivotIndex = r
+            partitionIndex will initialized as l. You will iterate the array, i = starting l to r and if an element at index i  
+            is lesser than nums[pivotIndex], then you will swap it with the element at partitionIndex. ParitionIndex thus, is always the index 
+            where any element less than equal to nums[pivotIndex] (can be called pivotValue) needs to go. Once we emplace a 
+            element that should be at a certain partitionIndex by swapping, we need to increment partitionIndex.
+            We do the incrementing because all elelements at / before that partitionIndex are guaranteed to have a value less than 
+            paritionIndex, any newer elements need to be emplaced at the next partitionIndex which will be the incremented value. 
+
+            At the end we swap the partitionIndex value with pivotIndex value. Remember that nums[pivotIndex] contained pivot, and now since it lies 
+            on the partitionIndex value, the pivot lies in it's correct ordered position inside the array. 
+        */
+        int paritionIndex = l;
         int pivotIndex = r;
         for (int i=l; i<r; i++) { //
             if (nums[i] <= nums[pivotIndex]) {
                 swap(nums, i, storeIndex);
-                storeIndex++;
+                paritionIndex++;
             } 
         }
-        swap(nums, storeIndex, pivotIndex); 
-        return storeIndex;
+        swap(nums, paritionIndex, pivotIndex); 
+        return paritionIndex;
     }
 
     public void swap(int[] nums, int i, int j) {
@@ -105,6 +159,10 @@ Similar to QuickSort it's when the array is already sorted and we keep picking t
 Anyway, I digress. Getting back to how to make QuickSelect work in such a manner that it's TC is always O(N)? In comes something called Randomised QuickSelect (Okay I totally made that up - but Randomised QuickSort exists and there's no reason why Randomised QuickSelect shouldn't). Even with a Randomised QuickSelect you can't always make sure that it's TC will always be O(N), but it's highly unlikely. 
 
 Here, instead of choosing the same last element again and again as the pivot, we start choosing a random index everytime. This random index should obviously be inside the array. 
+
+2 extra steps from the above getPartitionIndex() method is to 
+    1. select a random index
+    2. send that value all the way back at the end of the array (by swapping the selected random index with r). 
 
 The above getPartitionIndex() method would become getPartitionIndexRandomised()
 ```
