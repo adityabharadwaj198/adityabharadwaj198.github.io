@@ -168,19 +168,19 @@ The above getPartitionIndex() method would become getPartitionIndexRandomised()
 ```
 
     public int getPartitionIndexRandomised(int[] nums, int l, int r) {
-        int storeIndex = l;
+        int paritionIndex = l;
         Random rand = new Random();
         int pivotIndex = l + rand.nextInt(r - l + 1);
         int pivotValue = nums[pivotIndex];
         swap(nums, pivotIndex, r);
         for (int i=l; i<r; i++) { //
             if (nums[i] <= pivotValue) {
-                swap(nums, i, storeIndex);
-                storeIndex++;
+                swap(nums, i, paritionIndex);
+                paritionIndex++;
             }
         }
-        swap(nums, storeIndex, r); // Swap storeIndex with r because r is where the pivotValue is (it was swapped earlier)
-        return storeIndex;
+        swap(nums, paritionIndex, r); // Swap paritionIndex with r because r is where the pivotValue is (it was swapped earlier)
+        return paritionIndex;
     }
 
 ```
@@ -225,4 +225,6 @@ T(n) = T(n - 1) + O(n)
 **This is extremely rare if the pivot is randomized, it requires consistent bad luck in pivot selection.**
 
 So this tells you that average case time complexity of a quick select algorithm is O(N). Worst case is still O(N²) but it's likelyhood can be reduced a lot if you do randomised pivot selection. 
+
+Neetcode has a really nice explanation for this question: https://youtu.be/XEmy13g1Qxc?si=vXaavNToztXoGrOh
 
