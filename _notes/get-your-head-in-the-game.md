@@ -2,7 +2,7 @@
 layout: post
 title: "Get your head in the game"
 date: 2025-07-22
-categories: [blog]
+categories: [notes]
 tags: [productivity, reminders, self]
 excerpt: "Things I need to do to stay maximally productive (I forget these frequently)"
 ---

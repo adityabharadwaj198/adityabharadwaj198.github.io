@@ -2,7 +2,7 @@
 layout: post
 title: "Recent updates: search, retrieval, and learning ML properly"
 date: 2026-07-20
-categories: [notes]
+categories: [blog]
 tags: [machine-learning, search, retrieval, embeddings, learning]
 excerpt: "What I've been working on at Uber Eats, the ML and retrieval ideas I've been learning, and what I want to explore next."
 ---

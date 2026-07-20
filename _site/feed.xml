@@ -1,4 +1,77 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-07-20T20:40:52+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Aditya Bharadwaj</title><subtitle>Technology Brother</subtitle><entry><title type="html">What the heck is the METEOR Score (and why I added it to Promptfoo)</title><link href="http://localhost:4000/blog/2025/07/25/meteor-score.html" rel="alternate" type="text/html" title="What the heck is the METEOR Score (and why I added it to Promptfoo)" /><published>2025-07-25T00:00:00+05:30</published><updated>2025-07-25T00:00:00+05:30</updated><id>http://localhost:4000/blog/2025/07/25/meteor-score</id><content type="html" xml:base="http://localhost:4000/blog/2025/07/25/meteor-score.html"><![CDATA[<p>I was recently going over Chip Huyen’s AI engineering book (if you want a quick beginner friendly compilation you should check out the book). In Chapter 3 of the book titled Evaluation Methodology, she mentions different kinds of Lexical similarity metrics - which include BLEU, METEOR &amp; ROUGE. It reminded me of the time when I implemented the METEOR metric for a eval + ai red teaming tool called Promptfoo. Let’s dive into it.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-07-20T21:01:02+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Aditya Bharadwaj</title><subtitle>Technology Brother</subtitle><entry><title type="html">Recent updates: search, retrieval, and learning ML properly</title><link href="http://localhost:4000/blog/2026/07/20/recent-updates.html" rel="alternate" type="text/html" title="Recent updates: search, retrieval, and learning ML properly" /><published>2026-07-20T00:00:00+05:30</published><updated>2026-07-20T00:00:00+05:30</updated><id>http://localhost:4000/blog/2026/07/20/recent-updates</id><content type="html" xml:base="http://localhost:4000/blog/2026/07/20/recent-updates.html"><![CDATA[<p>It’s been a minute.</p>
+
+<p>I joined Uber Eats in September, on the Search team. We focus on building the data pipelines that serve Uber’s ranking and retrieval use cases—both offline training and online inferencing.</p>
+
+<p>From December through April, I worked on pipelines that generate embeddings for store and item entities, then index them in a Lucene-based vector index for approximate nearest-neighbour search, specifically HNSW.</p>
+
+<p>We also built more frequent delta pipelines for updates, additions, and deletes. These pipelines run inference to generate embeddings, publish them to a Kafka topic, and have a consumer ingest them into the vector index.</p>
+
+<p>I enjoyed this work a lot. It gave me a much clearer view of what it takes to move from an embedding model to a production retrieval system.</p>
+
+<h2 id="things-i-learned">Things I learned</h2>
+
+<p>Some of the topics I encountered—and want to understand more deeply—were:</p>
+
+<ol>
+  <li><strong>Two-tower embedding models.</strong> I understand the broad architecture, but I want to study them more deeply.</li>
+  <li><strong>Quantisation in vector indexes.</strong></li>
+  <li><strong>The search funnel:</strong> retrieval-based candidate generation, first-pass ranking, second-pass ranking, hydration, and filtering.</li>
+  <li><strong>Data leakage in ranking models.</strong></li>
+  <li><strong>Online versus offline features.</strong> Online inference can use real-time databases such as Cassandra or Redis, while offline feature generation and aggregation can use systems such as Hive.</li>
+  <li><strong>The feature lifecycle:</strong> feature generation, aggregation, ingestion into an offline database, ingestion into an online database, and finally feature retrieval at prediction time.</li>
+  <li><strong>Semantic IDs and the cold-start problem.</strong></li>
+  <li><strong>Ways to generate Semantic IDs,</strong> including residual quantisation, RQ-optimised product quantisation, and RQ-VAE.</li>
+  <li><strong>Sequence modelling:</strong> representing a customer’s sequence of actions to predict what they might do next.</li>
+  <li><strong>Generative retrieval and ranking using Semantic IDs.</strong></li>
+  <li><strong>Feature unification.</strong> Putting the features needed for model inference into a single Cassandra or Redis table can reduce latency by bringing related data into the cache together and serving subsequent requests from it.</li>
+</ol>
+
+<h2 id="semantic-ids-and-generative-retrieval">Semantic IDs and generative retrieval</h2>
+
+<p>Semantic IDs are one of the areas I want to explore next. I plan to read <a href="https://papers.neurips.cc/paper_files/paper/2023/file/20dcab0f14046a5c6b02b61da9f13229-Paper-Conference.pdf"><em>Recommender Systems with Generative Retrieval</em></a> and experiment with Semantic IDs on my own data.</p>
+
+<p>The idea of replacing arbitrary item identifiers with IDs that encode semantic information is fascinating. It connects representation learning, quantisation, retrieval, and generation in a way that feels both theoretically interesting and practically useful.</p>
+
+<h2 id="what-im-reading">What I’m reading</h2>
+
+<p>I’m currently reading:</p>
+
+<ul>
+  <li><em>AI Engineering</em> by Chip Huyen</li>
+  <li><em>Hands-On Large Language Models</em> by Jay Alammar and Maarten Grootendorst</li>
+</ul>
+
+<p>I also have Chip Huyen’s <a href="https://huyenchip.com/machine-learning-systems-design/design-a-machine-learning-system.html#project-setup-zlkQIG9">guide to designing a machine learning system</a> and <a href="https://huyenchip.com/ml-interviews-book/contents/0-about-the-questions.html">Machine Learning Interviews Book</a> on my radar.</p>
+
+<h2 id="learning-ml-from-the-foundations">Learning ML from the foundations</h2>
+
+<p>I’ve also been working through Andrej Karpathy’s <em>Neural Networks: Zero to Hero</em> course. So far, I have:</p>
+
+<ul>
+  <li>Built a bigram character-level language model from scratch</li>
+  <li>Implemented a trigram character-level language model using sampling</li>
+  <li>Implemented some neural networks from scratch</li>
+</ul>
+
+<p>I intend to return to the course and eventually be able to build GPT from scratch. I’ll probably share my solutions to the exercises as I go.</p>
+
+<p>Going through the course made me realise that I never studied ML or AI properly at university. I want to fix that, so today I revisited some material from Andrew Ng’s Deep Learning Specialization. I intend to implement the exercises from that course, advice that I got ~8 years back in college from my friends.</p>
+
+<p>I also want to learn more about inference engineering. I can already think of a few interesting problems at Uber where that knowledge could be useful.</p>
+
+<h2 id="system-design-implementations">System design implementations</h2>
+
+<p>Last year when I was interviewing I implemented a few toy systems and they helped me remember things really well. Like consistent hashing - so this year I’m planning to take it forward by implementing LSM tree on my own. I’m procrastinating a lot on that because I can’t figure out how skip lists work without having to look at someone’s blog.</p>
+
+<h2 id="elsewhere">Elsewhere</h2>
+
+<p>I’m LeetCoding on the side because my stupid ass applied to a really nice company, got a call back, and would hate to interview without being prepared.</p>
+
+<p>Outside work and study, I hit two reps at 95 kg (209 lb) on the bench. I’ve been enjoying training in the gym again after a long time.</p>
+
+<p>I’m also guiding my little sister on ML / AI and having fun discussing topics with her that she’s gotten more familiar with than me lol. I’ve also been funding her robotics pursuits. This makes me want to buy my own drone and program it.</p>
+
+<p>I’m also trying to practice delusional optimism a whole lot more these days.</p>]]></content><author><name></name></author><category term="blog" /><category term="machine-learning" /><category term="search" /><category term="retrieval" /><category term="embeddings" /><category term="learning" /><summary type="html"><![CDATA[What I've been working on at Uber Eats, the ML and retrieval ideas I've been learning, and what I want to explore next.]]></summary></entry><entry><title type="html">What the heck is the METEOR Score (and why I added it to Promptfoo)</title><link href="http://localhost:4000/blog/2025/07/25/meteor-score.html" rel="alternate" type="text/html" title="What the heck is the METEOR Score (and why I added it to Promptfoo)" /><published>2025-07-25T00:00:00+05:30</published><updated>2025-07-25T00:00:00+05:30</updated><id>http://localhost:4000/blog/2025/07/25/meteor-score</id><content type="html" xml:base="http://localhost:4000/blog/2025/07/25/meteor-score.html"><![CDATA[<p>I was recently going over Chip Huyen’s AI engineering book (if you want a quick beginner friendly compilation you should check out the book). In Chapter 3 of the book titled Evaluation Methodology, she mentions different kinds of Lexical similarity metrics - which include BLEU, METEOR &amp; ROUGE. It reminded me of the time when I implemented the METEOR metric for a eval + ai red teaming tool called Promptfoo. Let’s dive into it.</p>
 
 <h2 id="first-off--what-is-meteor">First off — what is METEOR?</h2>
 
@@ -78,42 +151,223 @@ It is sunny outside → ~0.3 (semantic drift, different words)
 <h2 id="final-thoughts">Final Thoughts</h2>
 <p>Adding METEOR to Promptfoo was fun, both as a coding problem (chunking, synonyms, scoring!) and as a UX enhancement for LLM evaluators. I usually don’t code in Typescript so it was a great exercise in that sense! Here’s my PR if interested to check it out: https://github.com/promptfoo/promptfoo/pull/3776/files</p>
 
-<p>If you want to go beyond BLEU and get a more nuanced picture of output quality, give it a spin. Your tests will thank you. And your models might pass more often.</p>]]></content><author><name></name></author><category term="blog" /><category term="ai" /><category term="evals" /><category term="promptfoo" /><category term="lexical-similarity" /><summary type="html"><![CDATA[A quick dive into METEOR, a smarter evaluation metric for LLM outputs, and a behind-the-scenes look at how I implemented it for Promptfoo.]]></summary></entry><entry><title type="html">Get your head in the game</title><link href="http://localhost:4000/blog/2025/07/22/Get-your-head-in-the-game.html" rel="alternate" type="text/html" title="Get your head in the game" /><published>2025-07-22T00:00:00+05:30</published><updated>2025-07-22T00:00:00+05:30</updated><id>http://localhost:4000/blog/2025/07/22/Get%20your%20head%20in%20the%20game</id><content type="html" xml:base="http://localhost:4000/blog/2025/07/22/Get-your-head-in-the-game.html"><![CDATA[<p>Things I need to do to stay maximally productive (I forget these frequently)</p>
+<p>If you want to go beyond BLEU and get a more nuanced picture of output quality, give it a spin. Your tests will thank you. And your models might pass more often.</p>]]></content><author><name></name></author><category term="blog" /><category term="ai" /><category term="evals" /><category term="promptfoo" /><category term="lexical-similarity" /><summary type="html"><![CDATA[A quick dive into METEOR, a smarter evaluation metric for LLM outputs, and a behind-the-scenes look at how I implemented it for Promptfoo.]]></summary></entry><entry><title type="html">QuickSelect</title><link href="http://localhost:4000/blog/2025/07/12/quickselect.html" rel="alternate" type="text/html" title="QuickSelect" /><published>2025-07-12T00:00:00+05:30</published><updated>2025-07-12T00:00:00+05:30</updated><id>http://localhost:4000/blog/2025/07/12/quickselect</id><content type="html" xml:base="http://localhost:4000/blog/2025/07/12/quickselect.html"><![CDATA[<p>How to write QuickSelect &amp; how to avoid worst case time complexity of O(N²)</p>
 
-<p>I like being productive, it makes me not hate myself. dw I like having fun too, but I wanna feel like I’ve really exhausted myself being productive so that having fun really pays off. I don’t like having fun if I’ve not worked enough.</p>
+<h2 id="quickselect">QuickSelect</h2>
 
-<p>Things I need to do to stay maximally productive (I forget these frequently)</p>
+<p>Quickselect is a useful algorithm usually used for problems like <a href="https://leetcode.com/problems/kth-largest-element-in-an-array">“Kth largest element”</a> or “Kth smallest element” (Unfortunately there’s no question like this on leetcode but you get the gist). It would be helpful to checkout this <a href="https://leetcode.com/problem-list/quickselect/">QuickSelect</a> tag on LC to see the type of problems QuickSelect can help with.</p>
 
-<h2 id="go-to-the-gym">Go to the gym</h2>
-<p>Reasons to consider:</p>
-<ol>
-  <li>The endorphin rush is real, mood is elevated, you start feeling good. This was so vague to me when I used to hear it from other people. During COVID WFH I worked out a lot and I’d always find myself being chirpier, singing songs, having fun &amp; being talkative with friends &amp; family if I met them right after the gym and that for me signals elevation of mood</li>
-  <li>Energy levels post workout are higher. Again goes back to being chirpier, being talkative &amp; generally just thinking let’s get this shit done</li>
-  <li>I feel productive by doing it. Let’s face it going to the gym is like any other task and if you do it you get to cut off a task from your todo list.</li>
-  <li>It is absolutely the 1 thing in my life that I love
-If not feeling like it, watch a workout video on the youtube: Omar Isuf / Jeff Nippard / Arnold / Saket Gokhale. These are some youtubers I like to watch.</li>
-</ol>
+<p>You might be thinking but these problems can be solved with a max heap or a min heap right? Right. And a heap makes it fairly easy too, just identify the type of problem (Kth largest will use a min heap &amp; Kth smallest will use a max heap) and solve it in O(NlogK) time, and be done with it.</p>
 
-<h2 id="drink-some-coffee-in-the-morning-with--without-protein">Drink some coffee in the morning with / without protein</h2>
-<p>Helps me stay awake in the afternoon. Huberman’s golden rule is to drink after 90 minutes of waking up so try to stick to that</p>
+<p>However, life isn’t this easy always, and some of the interviewers (Meta <em>cough cough</em>) expect a QuickSelect solution to these problems. I can’t even blame them, considering that the average case complexity of such a algorithm is O(N). Then again with a small enough K, the heap solution could be O(N) as well but you get what I mean.</p>
 
-<h2 id="keep-phone-away-in-another-room">Keep phone away in another room.</h2>
-<p>Another thing to add here is to turn on self control for ~12 hours. I think we all struggle with scrolling X, this is one way to avoid it.</p>
+<p>So let’s go over how a QuickSelect algorithm works and how to derive it on the spot.</p>
 
-<h2 id="if-not-getting-motivation">If not getting motivation</h2>
-<h3 id="1-watching-naval--anyone-else-you-respect">1. Watching Naval / anyone else you respect</h3>
+<p>QuickSelect is from a family of algorithms (or rather a nuclear family considering the size) that are based on QuickSort. 
+Now, how does QuickSelect work?</p>
 
-<h3 id="2-watch-striver-for-leetcode-motivation">2. Watch Striver for leetcode motivation.</h3>
+<p>Imagine we’re solving this problem: 
+<a href="https://leetcode.com/problems/kth-largest-element-in-an-array">“Kth largest element”</a></p>
 
-<h2 id="always-make-a-to-do-list-for-the-day">Always make a to-do list for the day</h2>
-<p>Even if you miss tasks, considering you complete &gt; 60% tasks, treat the day as a win. 
-Another thing that I’ve found helpful is, to estimate the time required for a task &amp; write it down on your todo list. If a task takes ~5 minutes, do it right away. Then do other tasks in ascending order of time required.</p>
+<p>Here, we want to find the Kth largest element. In a monotonically increasing array, the Kth largest element will always lie at the N - kth index (N being the length). 
+So we do exactly that, we look at the N - kth index from the start, while we try to place numbers in their correct position using the Quickselect algorithm. When we find an element who was supposed to be at index N - k, we return that number - since we are sure that Quickselect would’ve positioned the element correctly in the array.
+More specifically, we look at using QuickSelect to correctly place an element at the N - kth position such that all the elements before the N - kth position are smaller than the element at arr[n - k], and all the elements after index n - k, are greater than arr[n - k].</p>
 
-<h2 id="set-a-pomodoro-timer">Set a pomodoro timer</h2>
-<p>I usually set one for 30 minutes + 5 minutes break, and if I’m flowing, then I hit multiple sessions back to back. Always respect the timer and don’t do anything else apart from productive work during this time.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        
+        // if you want to search for kth largest element in a sorted (ascendingly sorted) array 
+        // you gotta look for n-kth element from the start. 
+        // Let's write a method getPartitionIndex(int[] nums, int l, int r) which whose responsibility is to always give return you the position at which "a pivot that the recurse method chooses". This position is called a partitionIndex, because you are effectively partitioning the array into 
+            1. elements lower than or equal to pivot 
+            2. elements higher than pivot. 
 
-<h2 id="put-on-binaural-60-hz-augmented-gamma-beats">Put on binaural 60 hz augmented gamma beats</h2>
-<p>or whatever the hell it’s called. I’ve heard it helps with focus. I usually put it on, maybe placebo but helps.</p>]]></content><author><name></name></author><category term="blog" /><category term="productivity" /><category term="reminders" /><category term="self" /><summary type="html"><![CDATA[Things I need to do to stay maximally productive (I forget these frequently)]]></summary></entry><entry><title type="html">What the heck is a vector embedding?</title><link href="http://localhost:4000/blog/2025/06/16/vectors.html" rel="alternate" type="text/html" title="What the heck is a vector embedding?" /><published>2025-06-16T00:00:00+05:30</published><updated>2025-06-16T00:00:00+05:30</updated><id>http://localhost:4000/blog/2025/06/16/vectors</id><content type="html" xml:base="http://localhost:4000/blog/2025/06/16/vectors.html"><![CDATA[<p>Vectors, Vector Embeddings, Vector Databases, and HNSW</p>
+        How do you select a pivot you ask? 
+        // There are multiple pivot selection strategies. Some algorithms suggest selecting the first element, some select the last element. 
+        // However, these strategies could result in a worst case time complexity of O(N), where you are consistently selecting the largest number (this is specifically - in case your strategy is selecting the last element).
+
+        To avoid this, we apply randomised pivot selecting strategy. Sounds esoteric, but it's just about generating a number between l &amp; r, and setting your pivotValue as the element you just generated randomly. More on this inside the getPartitionIndex(int[] nums, int l, int r) method [notice then name change?].
+
+
+        int l = 0, r = nums.length - 1; // initialize the high level variables 
+        
+        while (l &lt;= r) { 
+            int partitionIndex = getPartitionIndex(nums, l, r); // getPartitionIndex (the index where all elements left of the selected pivot are smaller than equal to pivot, and all elements right of the pivot are greater than equal to pivot)
+            if (partitionIndex == nums.length - k) {
+                return nums[partitionIndex];
+            } else if (partitionIndex &lt; nums.length - k) {
+                l = partitionIndex + 1;
+            } else {
+                r = partitionIndex - 1;
+            }
+        }
+        return nums[nums.length - k];
+    }
+
+
+
+    public int getPartitionIndex(int[] nums, int l, int r) {
+        /*
+        An example: 
+        [3,2,1,5,6,4]
+
+        paritionIndex = 0, pivotIndex = 5
+        i = 0, nums[i] &lt;= nums[5] (i.e 4) =&gt; swap paritionIndex with i (i.e swap (0, 0)). Increment partitionIndex
+        
+        paritionIndex becomes 1, i = 1. 
+        nums[1] &lt;= nums[5] (which is 4) =&gt; swap partionIndex with i (i.e swap (1, 1)). Increment partitionIndex
+        
+        paritionIndex becomes 2, i becomes 2
+        nums[2] &lt;= nums[5] (nums[5] is 4) =&gt; swap partionIndex with i (i.e swap (2, 2)). Increment partitionIndex
+
+        paritionIndex becomes 3, i becomes 3 
+        nums[3] &gt; nums[5] (nums[5] was 4) =&gt; can't swap. partitionIndex should not be incremented. i gets incremented and becomes 4 
+
+        paritionIndex stays 3, i becomes 4 
+        nums[4] &gt; nums[5] (nums[5] was 4) =&gt; can't swap. partitionIndex should not be incremented. i gets incremented and becomes 5. 
+        
+        i runs only till &lt;r which was 4, so exit the loop. 
+
+        At the end, swap partitionIndex &amp; r (r was 5). So we are effectively swapping 5 and 4.
+        Finally the array becomes [3, 2, 1, 4, 6, 5]
+
+        Another example: 
+        
+        -1, -2, 4, 3, 1, 2 
+        This is a case where max values are in the middle of the array
+        pivotIndex = 5, paritionIndex = 0, i = 0
+
+        paritionIndex = 0, pivotIndex = 5
+        i = 0, nums[i] &lt;= nums[5] (i.e 2) =&gt; swap partionIndex with i (i.e swap (0, 0)). Increment partitionIndex
+
+        paritionIndex becomes 1, i becomes 1. 
+        i = 1, nums[i] &lt;= nums[5] (i.e 2) =&gt; swap partionIndex with i (i.e swap (1, 1)). Increment partitionIndex
+
+        paritionIndex becomes 2, i becomes 2. 
+        i = 2, nums[i] &gt; nums[5] (i.e 2) =&gt; can't swap.  partitionIndex should not be incremented. i gets incremented and becomes 3. 
+
+        paritionIndex stays 2, i becomes 3
+        i = 3, nums[i] &gt; nums[5] (i.e 2) =&gt; can't swap. partitionIndex should not be incremented. i gets incremented and becomes 4. 
+
+        paritionIndex stays 2, i becomes 4
+        i = 3, nums[i] &lt;= nums[5] (i.e 2) =&gt; swap partionIndex with i (i.e swap (2, 4)). Increment partitionIndex. i gets incremented and becomes 5. 
+        
+        Array becomes [-1, -2, 1, 3, 4, 2]
+
+        Finally after the for loop. swap partitionIndex &amp; r (r was 5). So we are effectively swapping partitionIndex = 3 and r = 5. 
+
+        Array becomes [-1, -2, 1, 2, 4, 3]. Finally, our chosen pivot (value 2 at the chosen pivotIndex 5), has landed in it's correct sorted place. 
+        We return partitionIndex (partitionIndex was 3) back to the function above. 
+
+
+
+        */
+        /*
+            strategy here is to select the pivot as the last element of the array. In that case, pivotIndex = r
+            partitionIndex will initialized as l. You will iterate the array, i = starting l to r and if an element at index i  
+            is lesser than nums[pivotIndex], then you will swap it with the element at partitionIndex. ParitionIndex thus, is always the index 
+            where any element less than equal to nums[pivotIndex] (can be called pivotValue) needs to go. Once we emplace a 
+            element that should be at a certain partitionIndex by swapping, we need to increment partitionIndex.
+            We do the incrementing because all elelements at / before that partitionIndex are guaranteed to have a value less than 
+            paritionIndex, any newer elements need to be emplaced at the next partitionIndex which will be the incremented value. 
+
+            At the end we swap the partitionIndex value with pivotIndex value. Remember that nums[pivotIndex] contained pivot, and now since it lies 
+            on the partitionIndex value, the pivot lies in it's correct ordered position inside the array. 
+        */
+        int paritionIndex = l;
+        int pivotIndex = r;
+        for (int i=l; i&lt;r; i++) { //
+            if (nums[i] &lt;= nums[pivotIndex]) {
+                swap(nums, i, storeIndex);
+                paritionIndex++;
+            } 
+        }
+        swap(nums, paritionIndex, pivotIndex); 
+        return paritionIndex;
+    }
+
+    public void swap(int[] nums, int i, int j) {
+        if (i == j) {
+            return;
+        }
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}
+</code></pre></div></div>
+
+<p>Ignore the comments if you can. This algorithm’s time complexity is O(N) on an average but quickly shoots up to O(N²) in worst case. Can you think of what that case is?</p>
+
+<p>Similar to QuickSort it’s when the array is already sorted and we keep picking the last element as the pivot. Note that QuickSort’s average case TC is O(NlogN) &amp; not O(N).</p>
+
+<p>Anyway, I digress. Getting back to how to make QuickSelect work in such a manner that it’s TC is always O(N)? In comes something called Randomised QuickSelect (Okay I totally made that up - but Randomised QuickSort exists and there’s no reason why Randomised QuickSelect shouldn’t). Even with a Randomised QuickSelect you can’t always make sure that it’s TC will always be O(N), but it’s highly unlikely.</p>
+
+<p>Here, instead of choosing the same last element again and again as the pivot, we start choosing a random index everytime. This random index should obviously be inside the array.</p>
+
+<p>2 extra steps from the above getPartitionIndex() method is to 
+    1. select a random index
+    2. send that value all the way back at the end of the array (by swapping the selected random index with r).</p>
+
+<p>The above getPartitionIndex() method would become getPartitionIndexRandomised()</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+    public int getPartitionIndexRandomised(int[] nums, int l, int r) {
+        int paritionIndex = l;
+        Random rand = new Random();
+        int pivotIndex = l + rand.nextInt(r - l + 1);
+        int pivotValue = nums[pivotIndex];
+        swap(nums, pivotIndex, r);
+        for (int i=l; i&lt;r; i++) { //
+            if (nums[i] &lt;= pivotValue) {
+                swap(nums, i, paritionIndex);
+                paritionIndex++;
+            }
+        }
+        swap(nums, paritionIndex, r); // Swap paritionIndex with r because r is where the pivotValue is (it was swapped earlier)
+        return paritionIndex;
+    }
+
+</code></pre></div></div>
+
+<p>What are we doing differently here? We’re first of all using a random index as the pivot index every time (and we’re also moving it to the end of the array, this helps keep most of the algorithm same as the non-randomised one)</p>
+
+<p>Now let’s do the time complexity calculation:</p>
+
+<p>On average, the random pivot splits the array reasonably well, say around 25–75%, 50–50%, etc.</p>
+
+<p>So the recurrence is:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>T(n) = T(n/2) + O(n)     // average partitioning + one subarray recurse
+Using the Master Theorem or recursive tree analysis, this gives:
+
+T(n/2) = T(n/4) + O(n/2)  
+T(n/4) = T(n/8) + O(n/4)  
+T(n/8) = T(n/16) + O(n/8)
+T(n/2^n) = T(n/2^(n+1)) + O(n/2^n)  
+</code></pre></div></div>
+<p>Adding all of these will give you</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>T(n) = T(n/2^(n+1)) + O(n) +  O(n/2)  + O(n/4)  + O(n/8) + .... O(n/2^n) 
+
+O(n) +  O(n/2)  + O(n/4)  + O(n/8) + .... O(n/2^n)  = O(2n) (because n/2 + n/4 + n/8 + ... n / 2^n = n)
+
+T(n) = O(2n) ~ O(n)
+</code></pre></div></div>
+
+<p>Worst case it could be: O(n²)</p>
+
+<p>Pivot is always the maximum or minimum element</p>
+
+<p>Partitioning gives you subarrays of size n-1 and 0</p>
+
+<p>This gives recurrence:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>T(n) = T(n - 1) + O(n)
+     = O(n²)
+</code></pre></div></div>
+<p><strong>This is extremely rare if the pivot is randomized, it requires consistent bad luck in pivot selection.</strong></p>
+
+<p>So this tells you that average case time complexity of a quick select algorithm is O(N). Worst case is still O(N²) but it’s likelyhood can be reduced a lot if you do randomised pivot selection.</p>
+
+<p>Neetcode has a really nice explanation for this question: https://youtu.be/XEmy13g1Qxc?si=vXaavNToztXoGrOh</p>]]></content><author><name></name></author><category term="blog" /><category term="algorithms" /><category term="quicksort" /><category term="quickselect" /><category term="leetcode" /><summary type="html"><![CDATA[How to write QuickSelect &amp; how to avoid worst case time complexity of O(N²)]]></summary></entry><entry><title type="html">What the heck is a vector embedding?</title><link href="http://localhost:4000/blog/2025/06/16/vectors.html" rel="alternate" type="text/html" title="What the heck is a vector embedding?" /><published>2025-06-16T00:00:00+05:30</published><updated>2025-06-16T00:00:00+05:30</updated><id>http://localhost:4000/blog/2025/06/16/vectors</id><content type="html" xml:base="http://localhost:4000/blog/2025/06/16/vectors.html"><![CDATA[<p>Vectors, Vector Embeddings, Vector Databases, and HNSW</p>
 
 <h2 id="vectors">Vectors</h2>
 
