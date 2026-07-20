@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-  <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;700&display=swap" rel="stylesheet">
   {% seo %}
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-H49KCRCGYJ"></script>
@@ -19,16 +18,16 @@
 </head>
 <body>
   <header class="site-header">
-    <div class="container">
-      <a href="{{ '/' | relative_url }}" class="site-title">{{ site.title }}</a>
-      <p class="site-description">{{ site.description }}</p>
+    <div class="header-inner">
+      <a href="{{ '/' | relative_url }}" class="site-title" aria-label="{{ site.title }} home">adityabharadwaj</a>
+      <span class="header-dot" aria-hidden="true">•</span>
       <nav class="site-nav">
         <ul>
-          <li><a href="{{ '/' | relative_url }}">About</a></li>
-          <li><a href="{{ '/blog/' | relative_url }}">Writing</a></li>
-          <li><a href="{{ '/resume/' | relative_url }}">Resume</a></li>
-          <li><a href="{{ '/notes/' | relative_url }}">Notes</a></li>
-          <li><a href="{{ '/tags/' | relative_url }}">Tags</a></li>
+          <li><a href="{{ '/' | relative_url }}"{% if page.url == '/' %} class="active"{% endif %}>About</a></li>
+          <li><a href="{{ '/blog/' | relative_url }}"{% if page.url == '/blog/' or page.collection == 'posts' %} class="active"{% endif %}>Writing</a></li>
+          <li><a href="{{ '/resume/' | relative_url }}"{% if page.url == '/resume/' %} class="active"{% endif %}>Resume</a></li>
+          <li><a href="{{ '/notes/' | relative_url }}"{% if page.url == '/notes/' or page.collection == 'notes' %} class="active"{% endif %}>Notes</a></li>
+          <li><a href="{{ '/tags/' | relative_url }}"{% if page.url contains '/tags/' %} class="active"{% endif %}>Tags</a></li>
           <li><a href="{{ '/feed.xml' | relative_url }}">Feed</a></li>
         </ul>
       </nav>
@@ -36,18 +35,26 @@
   </header>
 
   <main class="site-content">
-    <div class="container">
+    <div class="content-inner">
       {{ content }}
     </div>
   </main>
 
   <footer class="site-footer">
-    <div class="social-links">
-      <a href="https://twitter.com/ad1tyabharadwaj" target="_blank" rel="noopener">Twitter</a>
-      <a href="https://github.com/adityabharadwaj198" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://www.linkedin.com/in/aditya-bharadwaj-28a91844/" target="_blank" rel="noopener">LinkedIn</a>
+    <div class="footer-inner">
+      <div class="social-links">
+        <a href="https://twitter.com/ad1tyabharadwaj" target="_blank" rel="noopener">x</a>
+        <span>·</span>
+        <a href="https://www.linkedin.com/in/aditya-bharadwaj-28a91844/" target="_blank" rel="noopener">linkedin</a>
+        <span>·</span>
+        <a href="https://github.com/adityabharadwaj198" target="_blank" rel="noopener">github</a>
+        <span>·</span>
+        <a href="https://open.spotify.com/user/adityabharadwaj198" target="_blank" rel="noopener">spotify</a>
+        <span>|</span>
+        <button class="theme-toggle" type="button" aria-label="Toggle color theme">theme</button>
+      </div>
+      <p class="copyright">adityabharadwaj · {{ site.time | date: '%Y' }}</p>
     </div>
-    <p class="copyright">&copy; {{ site.time | date: '%Y' }} {{ site.title }}. All rights reserved.</p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>

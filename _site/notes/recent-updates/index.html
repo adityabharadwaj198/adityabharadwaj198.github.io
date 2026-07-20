@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recent updates: search, retrieval, and learning ML properly - Aditya Bharadwaj</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Recent updates: search, retrieval, and learning ML properly | Aditya Bharadwaj</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="Recent updates: search, retrieval, and learning ML properly" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="What I’ve been working on at Uber Eats, the ML and retrieval ideas I’ve been learning, and what I want to explore next." />
+<meta property="og:description" content="What I’ve been working on at Uber Eats, the ML and retrieval ideas I’ve been learning, and what I want to explore next." />
+<link rel="canonical" href="http://localhost:4000/notes/recent-updates/" />
+<meta property="og:url" content="http://localhost:4000/notes/recent-updates/" />
+<meta property="og:site_name" content="Aditya Bharadwaj" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-07-20T00:00:00+05:30" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Recent updates: search, retrieval, and learning ML properly" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-07-20T00:00:00+05:30","datePublished":"2026-07-20T00:00:00+05:30","description":"What I’ve been working on at Uber Eats, the ML and retrieval ideas I’ve been learning, and what I want to explore next.","headline":"Recent updates: search, retrieval, and learning ML properly","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/notes/recent-updates/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/picture.png"}},"url":"http://localhost:4000/notes/recent-updates/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H49KCRCGYJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-H49KCRCGYJ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="site-title" aria-label="Aditya Bharadwaj home">adityabharadwaj</a>
+      <span class="header-dot" aria-hidden="true">•</span>
+      <nav class="site-nav">
+        <ul>
+          <li><a href="/">About</a></li>
+          <li><a href="/blog/">Writing</a></li>
+          <li><a href="/resume/">Resume</a></li>
+          <li><a href="/notes/" class="active">Notes</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/feed.xml">Feed</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="content-inner">
+      <article class="post">
+  <header class="post-header">
+    <h1 class="post-title">Recent updates: search, retrieval, and learning ML properly</h1>
+    <div class="post-meta">
+      <time datetime="2026-07-20T00:00:00+05:30">
+        July 20, 2026
+      </time>
+      
+      
+        • Categories: notes
+      
+    </div>
+  </header>
+
+  <div class="post-content">
+    <p>It’s been a minute.</p>
+
+<p>I joined Uber Eats in September, on the Search team. We focus on building the data pipelines that serve Uber’s ranking and retrieval use cases—both offline training and online inferencing.</p>
+
+<p>From December through April, I worked on pipelines that generate embeddings for store and item entities, then index them in a Lucene-based vector index for approximate nearest-neighbour search, specifically HNSW.</p>
+
+<p>We also built more frequent delta pipelines for updates, additions, and deletes. These pipelines run inference to generate embeddings, publish them to a Kafka topic, and have a consumer ingest them into the vector index.</p>
+
+<p>I enjoyed this work a lot. It gave me a much clearer view of what it takes to move from an embedding model to a production retrieval system.</p>
+
+<h2 id="things-i-learned">Things I learned</h2>
+
+<p>Some of the topics I encountered—and want to understand more deeply—were:</p>
+
+<ol>
+  <li><strong>Two-tower embedding models.</strong> I understand the broad architecture, but I want to study them more deeply.</li>
+  <li><strong>Quantisation in vector indexes.</strong></li>
+  <li><strong>The search funnel:</strong> retrieval-based candidate generation, first-pass ranking, second-pass ranking, hydration, and filtering.</li>
+  <li><strong>Data leakage in ranking models.</strong></li>
+  <li><strong>Online versus offline features.</strong> Online inference can use real-time databases such as Cassandra or Redis, while offline feature generation and aggregation can use systems such as Hive.</li>
+  <li><strong>The feature lifecycle:</strong> feature generation, aggregation, ingestion into an offline database, ingestion into an online database, and finally feature retrieval at prediction time.</li>
+  <li><strong>Semantic IDs and the cold-start problem.</strong></li>
+  <li><strong>Ways to generate Semantic IDs,</strong> including residual quantisation, RQ-optimised product quantisation, and RQ-VAE.</li>
+  <li><strong>Sequence modelling:</strong> representing a customer’s sequence of actions to predict what they might do next.</li>
+  <li><strong>Generative retrieval and ranking using Semantic IDs.</strong></li>
+  <li><strong>Feature unification.</strong> Putting the features needed for model inference into a single Cassandra or Redis table can reduce latency by bringing related data into the cache together and serving subsequent requests from it.</li>
+</ol>
+
+<h2 id="semantic-ids-and-generative-retrieval">Semantic IDs and generative retrieval</h2>
+
+<p>Semantic IDs are one of the areas I want to explore next. I plan to read <a href="https://papers.neurips.cc/paper_files/paper/2023/file/20dcab0f14046a5c6b02b61da9f13229-Paper-Conference.pdf"><em>Recommender Systems with Generative Retrieval</em></a> and experiment with Semantic IDs on my own data.</p>
+
+<p>The idea of replacing arbitrary item identifiers with IDs that encode semantic information is fascinating. It connects representation learning, quantisation, retrieval, and generation in a way that feels both theoretically interesting and practically useful.</p>
+
+<h2 id="what-im-reading">What I’m reading</h2>
+
+<p>I’m currently reading:</p>
+
+<ul>
+  <li><em>AI Engineering</em> by Chip Huyen</li>
+  <li><em>Hands-On Large Language Models</em> by Jay Alammar and Maarten Grootendorst</li>
+</ul>
+
+<p>I also have Chip Huyen’s <a href="https://huyenchip.com/machine-learning-systems-design/design-a-machine-learning-system.html#project-setup-zlkQIG9">guide to designing a machine learning system</a> and <a href="https://huyenchip.com/ml-interviews-book/contents/0-about-the-questions.html">Machine Learning Interviews Book</a> on my radar.</p>
+
+<h2 id="learning-ml-from-the-foundations">Learning ML from the foundations</h2>
+
+<p>I’ve also been working through Andrej Karpathy’s <em>Neural Networks: Zero to Hero</em> course. So far, I have:</p>
+
+<ul>
+  <li>Built a bigram character-level language model from scratch</li>
+  <li>Implemented a trigram character-level language model using sampling</li>
+  <li>Implemented some neural networks from scratch</li>
+</ul>
+
+<p>I intend to return to the course and eventually be able to build GPT from scratch. I’ll probably share my solutions to the exercises as I go.</p>
+
+<p>Going through the course made me realise that I never studied ML or AI properly at university. I want to fix that, so today I revisited some material from Andrew Ng’s Deep Learning Specialization. I intend to implement the exercises from that course, advice that I got ~8 years back in college from my friends.</p>
+
+<p>I also want to learn more about inference engineering. I can already think of a few interesting problems at Uber where that knowledge could be useful.</p>
+
+<h2 id="system-design-implementations">System design implementations</h2>
+
+<p>Last year when I was interviewing I implemented a few toy systems and they helped me remember things really well. Like consistent hashing - so this year I’m planning to take it forward by implementing LSM tree on my own. I’m procrastinating a lot on that because I can’t figure out how skip lists work without having to look at someone’s blog.</p>
+
+<h2 id="elsewhere">Elsewhere</h2>
+
+<p>I’m LeetCoding on the side because my stupid ass applied to a really nice company, got a call back, and would hate to interview without being prepared.</p>
+
+<p>Outside work and study, I hit two reps at 95 kg (209 lb) on the bench. I’ve been enjoying training in the gym again after a long time.</p>
+
+<p>I’m also guiding my little sister on ML / AI and having fun discussing topics with her that she’s gotten more familiar with than me lol. I’ve also been funding her robotics pursuits. This makes me want to buy my own drone and program it.</p>
+
+<p>I’m also trying to practice delusional optimism a whole lot more these days.</p>
+
+  </div>
+
+  <footer class="post-footer">
+    <div class="post-tags">
+      
+        Tags: 
+        
+          <a href="/tags/machine-learning/" class="tag">machine-learning</a>
+        
+          <a href="/tags/search/" class="tag">search</a>
+        
+          <a href="/tags/retrieval/" class="tag">retrieval</a>
+        
+          <a href="/tags/embeddings/" class="tag">embeddings</a>
+        
+          <a href="/tags/learning/" class="tag">learning</a>
+        
+      
+    </div>
+
+    <div class="post-navigation">
+      
+        <a class="prev" href="/notes/Quickselect/">&laquo; QuickSelect</a>
+      
+      
+    </div>
+  </footer>
+</article> 
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="social-links">
+        <a href="https://twitter.com/ad1tyabharadwaj" target="_blank" rel="noopener">x</a>
+        <span>·</span>
+        <a href="https://www.linkedin.com/in/aditya-bharadwaj-28a91844/" target="_blank" rel="noopener">linkedin</a>
+        <span>·</span>
+        <a href="https://github.com/adityabharadwaj198" target="_blank" rel="noopener">github</a>
+        <span>·</span>
+        <a href="https://open.spotify.com/user/adityabharadwaj198" target="_blank" rel="noopener">spotify</a>
+        <span>|</span>
+        <button class="theme-toggle" type="button" aria-label="Toggle color theme">theme</button>
+      </div>
+      <p class="copyright">adityabharadwaj · 2026</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="/assets/js/main.js"></script>
+</body>
+</html> 
