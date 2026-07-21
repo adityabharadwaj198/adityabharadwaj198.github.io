@@ -32,6 +32,8 @@ Some of the topics I encountered—and want to understand more deeply—were:
 9. **Sequence modelling:** representing a customer's sequence of actions to predict what they might do next.
 10. **Generative retrieval and ranking using Semantic IDs.**
 11. **Feature unification.** Putting the features needed for model inference into a single Cassandra or Redis table can reduce latency by bringing related data into the cache together and serving subsequent requests from it.
+12. **Multi-modal embeddings** learnt how VLMs work on Ray instances, how they tokenise using autoprocessors & a bunch of other things. 
+13. **Ray & Spark** we primarily use spark for batch CPU based workloads & Ray for both offline & online inferencing workloads
 
 ## Semantic IDs and generative retrieval
 

@@ -12,9 +12,9 @@ description: Technology Brother
 
   <p>Software engineer, DYEL bro, technology enthusiast. Curious about startups, history, space, geopolitics, climate, energy, physics and math.</p>
 
-  <p>Currently interested in vector stores, eval engines, and building my own toy systems. I loved space as a child and dreamt of being an astronaut (unironically). I hope to do space robotics one day.</p>
+  <p>Currently interested in vector stores, eval engines, and building my own toy systems. I loved space as a child and dreamt of being an astronaut (unironically).</p>
 
-  <p>I now wort at Uber eats, where I work in the search team which leverages semantic retreival, store + item / query for retrieval + ranking / semantic ids & near real time features. I spent ~4.25 years at Amazon building systems that power payment selection, payment processing and transaction history for India marketplace. Simplistically, if you've ever paid on Amazon, you have touched code that I wrote. I have spent almost ~0.75 years at a early stage vector search engine company where we vectorise products using embedding models and store their vector embeddings in a vector store to enable search &amp; recommendations usecases.</p>
+  <p>I now work at Uber eats, in the search team which leverages lexical + semantic search for retreival and a bunch of user interaction data for ranking. I'm working on using semantic ids & near real time features for ranking & using multi-modal embeddings for retrieval. I spent ~4.25 years at Amazon building systems that power payment selection, payment processing and transaction history for India marketplace. Simplistically, if you've ever paid on Amazon, you have touched code that I wrote. I spent almost ~0.75 years at a early stage vector search engine company where we vectorised products using embedding models and stored their vector embeddings in a vector store to enable search &amp; recommendations usecases.</p>
 
   <p>When I'm not coding, you can find me exploring new music, working out, reading history or geopolitics.</p>
 </header>
