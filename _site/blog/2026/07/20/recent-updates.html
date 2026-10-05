@@ -12,15 +12,13 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="What I’ve been working on at Uber Eats, the ML and retrieval ideas I’ve been learning, and what I want to explore next." />
 <meta property="og:description" content="What I’ve been working on at Uber Eats, the ML and retrieval ideas I’ve been learning, and what I want to explore next." />
-<link rel="canonical" href="http://localhost:4000/blog/2026/07/20/recent-updates.html" />
-<meta property="og:url" content="http://localhost:4000/blog/2026/07/20/recent-updates.html" />
 <meta property="og:site_name" content="Aditya Bharadwaj" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2026-07-20T00:00:00+05:30" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Recent updates: search, retrieval, and learning ML properly" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-07-20T00:00:00+05:30","datePublished":"2026-07-20T00:00:00+05:30","description":"What I’ve been working on at Uber Eats, the ML and retrieval ideas I’ve been learning, and what I want to explore next.","headline":"Recent updates: search, retrieval, and learning ML properly","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2026/07/20/recent-updates.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/picture.png"}},"url":"http://localhost:4000/blog/2026/07/20/recent-updates.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-07-20T00:00:00+05:30","datePublished":"2026-07-20T00:00:00+05:30","description":"What I’ve been working on at Uber Eats, the ML and retrieval ideas I’ve been learning, and what I want to explore next.","headline":"Recent updates: search, retrieval, and learning ML properly","mainEntityOfPage":{"@type":"WebPage","@id":"/blog/2026/07/20/recent-updates.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/assets/img/picture.png"}},"url":"/blog/2026/07/20/recent-updates.html"}</script>
 <!-- End Jekyll SEO tag -->
 
   <!-- Google tag (gtag.js) -->
@@ -94,6 +92,8 @@
   <li><strong>Sequence modelling:</strong> representing a customer’s sequence of actions to predict what they might do next.</li>
   <li><strong>Generative retrieval and ranking using Semantic IDs.</strong></li>
   <li><strong>Feature unification.</strong> Putting the features needed for model inference into a single Cassandra or Redis table can reduce latency by bringing related data into the cache together and serving subsequent requests from it.</li>
+  <li><strong>Multi-modal embeddings</strong> learnt how VLMs work on Ray instances, how they tokenise using autoprocessors &amp; a bunch of other things.</li>
+  <li><strong>Ray &amp; Spark</strong> we primarily use spark for batch CPU based workloads &amp; Ray for both offline &amp; online inferencing workloads</li>
 </ol>
 
 <h2 id="semantic-ids-and-generative-retrieval">Semantic IDs and generative retrieval</h2>
@@ -168,9 +168,23 @@
         <a class="prev" href="/blog/2025/07/25/meteor-score.html">&laquo; What the heck is the METEOR Score (and why I added it to Promptfoo)</a>
       
       
+        <a class="next" href="/blog/2026/10/04/building-an-inference-server-from-scratch.html">Building an inference server from scratch using torch, fastapi, and transformer libraries. Part #1 &raquo;</a>
+      
     </div>
   </footer>
 </article> 
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  document.querySelectorAll("pre > code.language-mermaid").forEach(function (code) {
+    var div = document.createElement("div");
+    div.className = "mermaid";
+    div.textContent = code.textContent;
+    code.parentElement.replaceWith(div);
+  });
+  mermaid.initialize({ startOnLoad: false, theme: "neutral" });
+  mermaid.run({ querySelector: ".mermaid" });
+</script>
+
     </div>
   </main>
 
