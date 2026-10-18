@@ -464,6 +464,13 @@ img {
   }
 }
 
+.header-inner .theme-toggle {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 1.1rem;
+  line-height: 1.2;
+}
+
 .copyright {
   margin: 8px 0 0;
   color: var(--faint);
@@ -517,6 +524,12 @@ img {
   .site-nav {
     grid-column: 1 / -1;
     margin-top: 9px;
+  }
+
+  .header-inner .theme-toggle {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
   }
 
   .site-content {

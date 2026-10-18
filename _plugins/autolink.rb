@@ -13,6 +13,11 @@ Jekyll::Hooks.register [:posts, :documents], :pre_render do |doc|
     end
     next line if in_fence || line =~ /^( {4}|\t)/
 
+    # A tweet URL alone on a line becomes an embedded tweet
+    if line =~ %r{\A\s*(https://(?:x|twitter)\.com/\w+/status/\d+)\S*\s*\z}
+      next "{% include tweet.html url=\"#{$1}\" %}\n"
+    end
+
     line.split(/(`[^`]*`)/).map do |part|
       part.start_with?("`") ? part : part.gsub(BARE_URL, '<\1>')
     end.join

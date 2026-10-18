@@ -24,12 +24,13 @@
         <ul>
           <li><a href="{{ '/' | relative_url }}"{% if page.url == '/' %} class="active"{% endif %}>About</a></li>
           <li><a href="{{ '/blog/' | relative_url }}"{% if page.url == '/blog/' or page.collection == 'posts' %} class="active"{% endif %}>Writing</a></li>
-          <li><a href="{{ '/resume/' | relative_url }}"{% if page.url == '/resume/' %} class="active"{% endif %}>Resume</a></li>
           <li><a href="{{ '/notes/' | relative_url }}"{% if page.url == '/notes/' or page.collection == 'notes' %} class="active"{% endif %}>Notes</a></li>
+          <li><a href="{{ '/tweets/' | relative_url }}"{% if page.url == '/tweets/' %} class="active"{% endif %}>Tweets</a></li>
           <li><a href="{{ '/tags/' | relative_url }}"{% if page.url contains '/tags/' %} class="active"{% endif %}>Tags</a></li>
           <li><a href="{{ '/feed.xml' | relative_url }}">Feed</a></li>
         </ul>
       </nav>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle theme">◐</button>
     </div>
   </header>
 
@@ -49,20 +50,25 @@
         <a href="https://github.com/adityabharadwaj198" target="_blank" rel="noopener">github</a>
         <span>·</span>
         <a href="https://open.spotify.com/user/adityabharadwaj198" target="_blank" rel="noopener">spotify</a>
-        <span>|</span>
-        <button class="theme-toggle" type="button" aria-label="Toggle color theme">theme</button>
       </div>
       <p class="copyright">adityabharadwaj · {{ site.time | date: '%Y' }}</p>
     </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
   <script>
     window.MathJax = { options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] } };
   </script>
   <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>
+  {% if content contains 'twitter-tweet' %}
+  <script>
+    document.querySelectorAll('blockquote.twitter-tweet').forEach(function (q) {
+      q.setAttribute('data-theme', document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
+    });
+  </script>
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  {% endif %}
   <script>
     // Open external links in a new tab
     document.querySelectorAll('.post-content a[href^="http"]').forEach(function (a) {

@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://adityabharadwaj198.github.io/sitemap.xml
