@@ -22,7 +22,8 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.2"
-      - run: bundle install
+      # Gemfile.lock pins a removed ffi version and lacks jekyll-sitemap; re-resolve in CI
+      - run: rm -f Gemfile.lock && bundle install
       - id: pages
         uses: actions/configure-pages@v5
       - run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
