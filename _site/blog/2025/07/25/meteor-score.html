@@ -3,22 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>What the heck is the METEOR Score (and why I added it to Promptfoo) - Aditya Bharadwaj</title>
   <link rel="stylesheet" href="/assets/css/style.css">
-  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <!-- Begin Jekyll SEO tag v2.9.1 -->
 <title>What the heck is the METEOR Score (and why I added it to Promptfoo) | Aditya Bharadwaj</title>
-<meta name="generator" content="Jekyll v4.3.4" />
+<meta name="generator" content="Jekyll v4.4.1" />
 <meta property="og:title" content="What the heck is the METEOR Score (and why I added it to Promptfoo)" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="A quick dive into METEOR, a smarter evaluation metric for LLM outputs, and a behind-the-scenes look at how I implemented it for Promptfoo." />
-<meta property="og:description" content="A quick dive into METEOR, a smarter evaluation metric for LLM outputs, and a behind-the-scenes look at how I implemented it for Promptfoo." />
+<meta name="twitter:description" property="og:description" content="A quick dive into METEOR, a smarter evaluation metric for LLM outputs, and a behind-the-scenes look at how I implemented it for Promptfoo." />
+<link rel="canonical" href="http://localhost:4000/blog/2025/07/25/meteor-score.html" />
+<meta property="og:url" content="http://localhost:4000/blog/2025/07/25/meteor-score.html" />
 <meta property="og:site_name" content="Aditya Bharadwaj" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2025-07-25T00:00:00+05:30" />
+<meta property="article:modified_time" content="2025-07-25T00:00:00+05:30" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="What the heck is the METEOR Score (and why I added it to Promptfoo)" />
+<meta name="twitter:title" content="What the heck is the METEOR Score (and why I added it to Promptfoo)" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-07-25T00:00:00+05:30","datePublished":"2025-07-25T00:00:00+05:30","description":"A quick dive into METEOR, a smarter evaluation metric for LLM outputs, and a behind-the-scenes look at how I implemented it for Promptfoo.","headline":"What the heck is the METEOR Score (and why I added it to Promptfoo)","mainEntityOfPage":{"@type":"WebPage","@id":"/blog/2025/07/25/meteor-score.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/assets/img/picture.png"}},"url":"/blog/2025/07/25/meteor-score.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-07-25T00:00:00+05:30","datePublished":"2025-07-25T00:00:00+05:30","description":"A quick dive into METEOR, a smarter evaluation metric for LLM outputs, and a behind-the-scenes look at how I implemented it for Promptfoo.","headline":"What the heck is the METEOR Score (and why I added it to Promptfoo)","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2025/07/25/meteor-score.html"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/picture.png"}},"url":"http://localhost:4000/blog/2025/07/25/meteor-score.html"}</script>
 <!-- End Jekyll SEO tag -->
 
   <!-- Google tag (gtag.js) -->
@@ -129,7 +131,7 @@ It is sunny outside → ~0.3 (semantic drift, different words)
 
 <h2 id="how-to-use-meteor-in-promptfoo">How to use METEOR in Promptfoo</h2>
 
-<p>I wrote some documentation as part of my PR as well so I may as well point you directly to the documentation: https://www.promptfoo.dev/docs/configuration/expected-outputs/deterministic/#meteor</p>
+<p>I wrote some documentation as part of my PR as well so I may as well point you directly to the documentation: <a href="https://www.promptfoo.dev/docs/configuration/expected-outputs/deterministic/#meteor">https://www.promptfoo.dev/docs/configuration/expected-outputs/deterministic/#meteor</a></p>
 
 <h2 id="when-should-you-use-meteor">When should you use METEOR?</h2>
 <p>If your tests are judging:</p>
@@ -144,7 +146,7 @@ It is sunny outside → ~0.3 (semantic drift, different words)
 …it’s a great tool.</p>
 
 <h2 id="final-thoughts">Final Thoughts</h2>
-<p>Adding METEOR to Promptfoo was fun, both as a coding problem (chunking, synonyms, scoring!) and as a UX enhancement for LLM evaluators. I usually don’t code in Typescript so it was a great exercise in that sense! Here’s my PR if interested to check it out: https://github.com/promptfoo/promptfoo/pull/3776/files</p>
+<p>Adding METEOR to Promptfoo was fun, both as a coding problem (chunking, synonyms, scoring!) and as a UX enhancement for LLM evaluators. I usually don’t code in Typescript so it was a great exercise in that sense! Here’s my PR if interested to check it out: <a href="https://github.com/promptfoo/promptfoo/pull/3776/files">https://github.com/promptfoo/promptfoo/pull/3776/files</a></p>
 
 <p>If you want to go beyond BLEU and get a more nuanced picture of output quality, give it a spin. Your tests will thank you. And your models might pass more often.</p>
 
@@ -211,5 +213,18 @@ It is sunny outside → ~0.3 (semantic drift, different words)
   <script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="/assets/js/main.js"></script>
+  <script>
+    window.MathJax = { options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] } };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>
+  <script>
+    // Open external links in a new tab
+    document.querySelectorAll('.post-content a[href^="http"]').forEach(function (a) {
+      if (a.hostname !== location.hostname) {
+        a.target = '_blank';
+        a.rel = 'noopener';
+      }
+    });
+  </script>
 </body>
 </html> 
