@@ -1,14 +1,19 @@
 theme: null
 
 title: Aditya Bharadwaj
+url: https://adityabharadwaj198.github.io
 description: Technology Brother
 logo: /assets/img/picture.png
 
 # Build settings
 markdown: kramdown
+kramdown:
+  syntax_highlighter: rouge
+  math_engine: mathjax
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+  - jekyll-sitemap
 
 # Exclude from processing
 exclude:

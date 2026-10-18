@@ -536,3 +536,71 @@ img {
     animation-duration: 24s, 1s;
   }
 }
+
+// Tables
+.post-content table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  margin: 24px 0;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+
+  th, td {
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    text-align: left;
+  }
+
+  th {
+    background: var(--surface);
+  }
+}
+
+// Footnotes
+.footnotes {
+  margin-top: 48px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+// Images and math
+.post-content img {
+  display: block;
+  margin: 24px auto;
+  border-radius: 6px;
+}
+
+mjx-container[display="true"] {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+// Syntax highlighting (Rouge)
+.highlight {
+  margin: 24px 0;
+
+  pre {
+    margin: 0;
+    line-height: 1.55;
+  }
+
+  .c, .cm, .c1, .cs, .cd { color: var(--faint); font-style: italic; }
+  .k, .kc, .kd, .kn, .kp, .kr, .kt, .ow { color: #a626a4; }
+  .s, .sb, .sc, .sd, .s2, .se, .sh, .si, .sx, .sr, .s1, .ss { color: #3a8a3a; }
+  .m, .mf, .mh, .mi, .mo, .il { color: #b5651d; }
+  .nf, .fm, .nc, .nd { color: #2457d6; }
+  .nb, .bp, .no { color: #b5651d; }
+  .o, .p { color: var(--muted); }
+  .err { color: #c0392b; }
+}
+
+[data-theme="dark"] .highlight {
+  .k, .kc, .kd, .kn, .kp, .kr, .kt, .ow { color: #d68cf0; }
+  .s, .sb, .sc, .sd, .s2, .se, .sh, .si, .sx, .sr, .s1, .ss { color: #8fd18f; }
+  .m, .mf, .mh, .mi, .mo, .il { color: #e8a96a; }
+  .nf, .fm, .nc, .nd { color: #8aabff; }
+  .nb, .bp, .no { color: #e8a96a; }
+}
