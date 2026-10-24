@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "Building an inference server from scratch using PyTorch, FastAPI, and Hugging Face Transformers. Part #1"
+title: "Building an inference server from scratch, Part #1: how the KV cache made my LLM up to 7x faster"
 date: 2026-10-04
 categories: [blog]
 tags: [llm, large-language-model, ai-engineering, inference-server, learning]
-excerpt: "How I built an inference server and what I learnt from it"
+excerpt: "I built an LLM inference server with PyTorch, FastAPI and Hugging Face Transformers, then measured what the KV cache really buys you: 2.2x at 32 tokens, 7.3x at 512."
 ---
 
 **Contents**
@@ -18,7 +18,8 @@ excerpt: "How I built an inference server and what I learnt from it"
 7. [Benchmarking the uncached version](#benchmarking-the-uncached-version)
 8. [The fast way: generation with a KV cache](#the-fast-way-generation-with-a-kv-cache)
 9. [Does the gap grow with length?](#does-the-gap-grow-with-length)
-10. [What's next](#whats-next)
+10. [Trying it out](#trying-it-out)
+11. [What's next](#whats-next)
 
 Inference servers are on everyone's minds these days. As we start finding more and more viable applications of LLMs in production systems, serving LLM inference is only going to become more important going forward. There are a variety of use cases, like search and recommendations, ChatGPT-like chatbots for various different purposes (think general assistant or even role-playing (I'm looking at you Character.ai)), coding, voice and video.
 
@@ -55,7 +56,9 @@ flowchart TD
 
 ## Setup: loading the model
 
-First let's get some imports out of the way. 
+Everything in this post ran on a Mac (via PyTorch's MPS backend), so absolute latencies are slower than you'd see on a datacenter GPU. That shouldn't be a concern as the relative speedups are what matter.
+
+First let's get some imports out of the way.
 
 ```python
 import time
@@ -72,7 +75,7 @@ app = FastAPI()
 start_time = time.time()
 MODEL_ID = "Qwen/Qwen3-4B"
 
-# for loading the tokenizer specific to this model. We also do this in our embedding gen pipeline at Uber. This exists inside the model class
+# load the tokenizer that matches this model
 tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
 
 model = AutoModelForCausalLM.from_pretrained(MODEL_ID, dtype=torch.float16, device_map="auto").eval()
@@ -80,7 +83,9 @@ model = AutoModelForCausalLM.from_pretrained(MODEL_ID, dtype=torch.float16, devi
 print(f"Loaded model {MODEL_ID} in {time.time() - start_time:.2f} seconds")
 ```
 
-We'll also need two small helpers. `sync_gpu` waits for queued GPU work to finish, because GPU kernels run asynchronously and our timers would otherwise measure nothing. `select_next_token` turns the last position's logits into the next token: greedy (argmax) when `temperature` is 0, otherwise temperature scaling plus optional top-k sampling.
+We'll also need two small helpers. `sync_gpu` waits for queued GPU work to finish, because GPU kernels run asynchronously and our timers would otherwise measure only how long it takes to queue the work, not to finish it. `select_next_token` is basically how we sample the next token out of all the tokens in our LLM's vocabulary. It turns the last position's logits into the next token: 
+Common sampling strategies broadly are greedy sampling (argmax) when `temperature` is 0 (which just selects the token with the highest probability). Temperature sampling scales the logits before applying the softmax function to convert to probabilities: A low temperature (< 1.0) sharpens the distribution to make top choices even more dominant (which makes the LLM more deterministic and factual), this makes sense if you think about it as if you divide all numbers (logits) by something less than 1, the gaps between the numbers stretch out and get wider. 
+Conversely, a high temperature (> 1.0) flattens the distribution, giving lower-probability tokens a better chance (which makes the LLM more creative and random), because you'd divide all numbers (logits) by something more than 1, the gaps b/w the numbers would only get smaller. Top-k sampling on the other hand orders the tokens by their logits and only picks the Top-k out of them, and chooses the next token out of them by doing random sampling (i.e `torch.multinomial`). 
 
 ```python
 def sync_gpu():
@@ -98,9 +103,7 @@ def select_next_token(
     if temperature == 0:
         return torch.argmax(logits, dim=-1, keepdim=True)
 
-    # TODO 2: scale logits, apply the top-k cutoff, and sample one token.
-    scaled_logits = logits / temperature 
-    breakpoint()
+    scaled_logits = logits / temperature
     if top_k is not None:
         top_values = torch.topk(scaled_logits, top_k, dim=-1).values
         # keep the trailing dim so this broadcasts over the vocab, and use
@@ -110,7 +113,6 @@ def select_next_token(
 
     probabilities = scaled_logits.softmax(dim=-1)
     next_token = torch.multinomial(probabilities, num_samples=1)
-    assert next_token is not None, "Sample one token"
     return next_token
 ```
 
@@ -178,7 +180,23 @@ We'll talk about what `generate_cached` does below, and `generate_stream` in the
 
 ## What is a KV cache?
 
-`generate_cached` does in fact do what it says: it runs the generation process in a cached manner. What's cached? It's the intermediate Key (K) and Value (V) matrices computed from previous tokens during autoregressive transformer inference. It's stored in a data structure called KV cache, to help avoid redundant computations. It significantly speeds things up, as we'll see with some benchmarks that we'll run below. 
+`generate_cached` does in fact do what it says: it runs the generation process in a cached manner. What's cached? The intermediate Key (K) and Value (V) tensors that attention computes for every token. They're stored in a data structure called the KV cache, to avoid redundant computation.
+
+Here's the intuition. To pick the next token, the model only needs the output at the *last* position, but attention at that position looks at the Key and Value of every earlier token. And the K and V of a token that's already been processed never change. So recomputing them on every step is pure waste.
+
+- **Without a cache**, every step feeds the entire sequence (prompt plus everything generated so far) back through the model, recomputes K and V for all of it, and then throws everything away except the last position's output.
+- **With a cache**, we compute K and V for the prompt once and store them. Every later step feeds in only the one new token, computes just its K and V, appends them to the cache, and attends over the stored ones.
+
+For our 26-token prompt, that looks like this:
+
+| Step | Tokens the model processes (uncached) | Tokens the model processes (cached) |
+|---|---|---|
+| 1 (prefill) | 26 | 26 |
+| 2 | 27 | 1 |
+| 3 | 28 | 1 |
+| N | 25 + N | 1 |
+
+The trade-off is memory: the cache grows with every token and has to live somewhere. That becomes a big deal once you serve many requests at once, but that's a story for a later post. First, let's see how much it actually helps.
 
 ## The slow way: generation without a KV cache
 
@@ -199,7 +217,7 @@ def generate_uncached(
     prompt_length = generated_ids.shape[1] # length of the input prompt after tokenization
     first_token_at = None
 
-    sync_gpu() # synchronize the GPU - this is required to ensure that the GPU is properly synchronized with the CPU. Otherwise, the model will not be able to run on the GPU.
+    sync_gpu() # wait for any queued GPU work so the timer starts from a clean slate
     started_at = time.perf_counter()
     for _ in range(max_new_tokens):
         outputs = model(
@@ -291,14 +309,40 @@ Try doing a `tokenizer.decode(151644)` and you'll see that 151644 corresponds to
 When processing text in batches, different sequences have different lengths. To form a clean rectangular tensor matrix, shorter sentences must be padded with filler tokens (like [PAD]). The [PAD] token carries no semantic meaning. If the model calculates self-attention over the whole matrix, legitimate words will waste attention capacity looking at meaningless padding tokens, warping the contextual representations. The solution: the mask acts as a binary guide (e.g., 1 for real tokens, 0 for padding) telling the model exactly which parts of the matrix to ignore. If you're interested in trying it out, run this in a Jupyter notebook cell:
 
 ```python
+short_message = [
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "Hello!"},
+]
 
+long_message = [
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "Tell me about Kanye's song Homecoming?"},
+]
+
+batch = tokenizer.apply_chat_template(
+    [short_message, long_message],
+    tokenize=True,
+    add_generation_prompt=True,
+    padding=True,
+    return_tensors="pt",
+    return_dict=True,
+)
+print(batch["input_ids"].shape)
+print(batch["attention_mask"])
+```
+
+What do you observe? Both rows have the same length: the shorter message was padded up to the longer one, and its attention mask has 0s at the padded positions.
+
+Our server only handles one prompt at a time, so there's no padding and the mask is all 1s (batching is a topic for a later post). Here's the `prepare_inputs` function that both generation functions call first:
+
+```python
 def prepare_inputs(prompt: str):
     messages = [{"role": "system", "content": "You are a good assistant. Keep your responses short and concise. Do not overthink your responses. Do not make up facts. Do not hallucinate. Ground your responses in reality."}, {"role": "user", "content": prompt}]
-    inputs = tokenizer.apply_chat_template(messages, add_generation_prompt=True, return_tensors="pt", return_dict = True)
-    
+    inputs = tokenizer.apply_chat_template(messages, add_generation_prompt=True, return_tensors="pt", return_dict=True)
+
     inputs = inputs.to(model.device)
 
-    return inputs   
+    return inputs
 ```
 
 Try printing out the `inputs`. What do you observe?
@@ -307,7 +351,7 @@ Okay, I think that's all I wanted to discuss on tokenization. By the way, if you
 
 ## Benchmarking the uncached version
 
-Let's run it:
+Let's run it (on the Mac, as mentioned above):
 
 ```python
 uncached_output = generate_uncached("do robots dream of electric sheep?")
@@ -316,7 +360,7 @@ print(uncached_output)
 
 ![Benchmark output for generate_uncached: 26 input tokens, 126 ms time to first token, 4604 ms total latency](/assets/img/uncached-benchmark.png)
 
-TTFT is 126 ms, which is the time it takes for the LLM to spit out the first token. Token generation works in two phases, prefill and decode, and TTFT is heavily influenced by prefill. Maybe another post on that in the future.
+TTFT is 126 ms, which is the time it takes for the LLM to spit out the first token. Token generation works in two phases. **Prefill** runs the whole prompt through the model in a single pass and produces the first token, so TTFT is essentially the cost of prefill. **Decode** then produces the remaining tokens one at a time, one model call per token. Total latency is roughly prefill plus one decode step for every token generated, which is why that second phase dominates for long outputs.
 
 What's considerably worse is the total latency of ~4.6 s. I'd be frustrated af if an LLM took 4.6 seconds to answer a one-line question.
 
@@ -338,7 +382,7 @@ def generate_cached(
     prompt_length = generated_ids.shape[1] # length of the input prompt after tokenization
     first_token_at = None
 
-    sync_gpu() # synchronize the GPU - this is required to ensure that the GPU is properly synchronized with the CPU. Otherwise, the model will not be able to run on the GPU.
+    sync_gpu() # wait for any queued GPU work so the timer starts from a clean slate
     started_at = time.perf_counter()
     outputs = model(
         input_ids=generated_ids,
@@ -392,7 +436,9 @@ def generate_cached(
 
 ```
 
-Notice what's different here? When we call the model we're passing in a `use_cache=True` parameter which will build the KV cache and cache the K, V projection matrices. We're also calling the model outside of the loop once (This is the prefill stage), and every subsequent iteration that we call the model becomes the Decode loop. Calling the model outside of the Decode loop enables us to get the current state of KV cache, which we can pass in every subsequent iteration. This enables the model forward pass to simply use the KV cache that we passed to it. 
+Notice what's different here? When we call the model we're passing in a `use_cache=True` parameter which will build the KV cache and cache the K, V projection matrices. We're also calling the model outside of the loop once (This is called prefill stage), and every subsequent iteration where we call the model becomes the Decode loop. 
+
+Calling the model outside of the Decode loop enables us to get the current state of KV cache, which we can pass in every subsequent iteration. This enables the model forward pass to simply use the KV cache that we passed to it. 
 
 
 ![Benchmark output for generate_cached: 26 input tokens, 136 ms time to first token, 2092 ms total latency](/assets/img/cached-benchmark.png)
@@ -407,12 +453,32 @@ Total latency is where the KV cache pays off, and it pays off more the longer th
 | 128 | 29.8 s | 7.3 s | 4.1x | ~233 ms | ~57 ms |
 | 512 | 278.1 s | 38.1 s | 7.3x | ~543 ms | ~74 ms |
 
+![Total latency for uncached versus cached generation at 32, 128 and 512 new tokens](/assets/img/latency-chart.svg)
+
 The uncached version gets slower with every token, because each step re-processes the whole sequence so far, prompt plus everything generated, from scratch. Its per-token cost nearly quadruples going from 32 to 512 tokens, and generating 512 tokens takes over four and a half minutes. The cached version stays in the same ballpark per token (it creeps up a little because attention has a longer cache to read each step), so the speedup keeps widening.
 
-Two caveats. Per-token numbers assume every run generated its full token budget without hitting EOS early. And time to first token is ~125-150 ms in all runs but one: the 512-token cached run reported ~1.5 s, which looks like a one-off (a warm-up or a noisy run) rather than something caused by the cache, since prefill is identical either way. Benchmarking properly means warming up first and averaging several runs.
+A few call-outs: Per-token numbers assume every run generated its full token budget without hitting EOS early. The 512-token runs were also done hours apart: I started the uncached run in the morning and, since it took so long, went off to do something else and ran the cached one in the evening. An agent told me that it could be due my laptop in a different state (thermal throttling, other apps competing for memory) which can easily account for the odd ~1.5 s time to first token in that cached run, since prefill is identical with or without the cache. So treat the 512-token speedup as indicative, not exact. Benchmarking properly means warming up first and averaging several back-to-back runs, but I'm a bit lazy to do that right now. 
+
+## Trying it out
+
+So far we've called the functions directly. Let's hit the actual server. Assuming the code lives in `main.py`:
+
+```bash
+uvicorn main:app --port 8000
+```
+
+Then, from another terminal:
+
+```bash
+curl -s localhost:8000/generate \
+  -H "Content-Type: application/json" \
+  -d '{"prompt": "do robots dream of electric sheep?", "token_limit": 32}'
+```
+
+The response has the shape of `GenerateResponse`: the generated `text`, a `timing` object with `latency_ms` and `ttft_ms`, the generated `token_count`, `throughput` in tokens per second, and `cache_usage`. (The `/stream` endpoint will work once we've written `generate_stream` in the next post.)
 
 ## What's next
 
-Same model, same output, and 2.2x lower latency at 32 tokens, growing to 4.1x at 128 and 7.3x at 512, just by turning on the KV cache and passing it back in on every step. In the next post I'll cover the streaming endpoint (`generate_stream`), sampling with temperature and top-k, and what happens when more than one request hits the server. 
+Damn son, I honestly didn't expect this big of a difference as the number of output tokens grow. Same model, same input, and 2.2x lower latency at 32 tokens, growing to 4.1x at 128 and 7.3x at 512, just by turning on the KV cache and passing it back in on every step. In the next post I'll cover the streaming endpoint (`generate_stream`), sampling with temperature and top-k, and what happens when more than one request hits the server. 
 
 
