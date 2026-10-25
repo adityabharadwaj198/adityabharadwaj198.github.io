@@ -21,6 +21,7 @@ exclude:
   - Gemfile.lock
   - node_modules
   - vendor
+  - bin
   - .gitignore
 
 # Collections

@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# Build and preview the site locally.
+#
+#   bin/preview              clean build, serve with live reload, open the browser
+#   bin/preview build        clean build into _site/ and exit
+#   bin/preview --port 4001  use another port
+#   bin/preview --no-open    don't open the browser
+#
+# Note: tweets, the mermaid diagram and MathJax load from CDNs, so they need internet.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+mode=serve; port=4000; open_browser=1
+while [ $# -gt 0 ]; do
+  case "$1" in
+    build|serve) mode=$1 ;;
+    --port) port=$2; shift ;;
+    --no-open) open_browser=0 ;;
+    -h|--help) sed -n '2,10p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    *) echo "unknown option: $1 (try --help)" >&2; exit 1 ;;
+  esac
+  shift
+done
+
+opener=$(command -v open || command -v xdg-open || true)
+
+echo "Building site..."
+bundle exec jekyll clean >/dev/null
+if ! out=$(bundle exec jekyll build 2>&1); then
+  echo "$out" >&2
+  echo "Build failed." >&2
+  exit 1
+fi
+echo "$out" | grep "done in" || true
+
+if [ "$mode" = build ]; then
+  echo "Built into $(pwd)/_site (serve it with: bin/preview)"
+  exit 0
+fi
+
+if lsof -nP -iTCP:"$port" -sTCP:LISTEN >/dev/null 2>&1; then
+  echo "Port $port is already in use (an old preview still running?)." >&2
+  echo "Stop it with: pkill -f 'jekyll serve'   or pick another port: bin/preview --port 4001" >&2
+  exit 1
+fi
+
+url="http://127.0.0.1:$port/"
+if [ "$open_browser" = 1 ] && [ -n "$opener" ]; then
+  # open once the server answers, in the background
+  (for _ in $(seq 1 60); do
+     curl -s -o /dev/null "$url" && { "$opener" "$url"; break; }
+     sleep 0.5
+   done) &
+fi
+
+echo "Serving $url  (Ctrl-C to stop, edits rebuild automatically)"
+exec bundle exec jekyll serve --skip-initial-build --livereload --port "$port" --host 127.0.0.1

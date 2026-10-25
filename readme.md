@@ -1,3 +1,28 @@
+## Build and preview locally
+
+Prerequisites: Ruby and Bundler. Install the gems once with:
+
+```bash
+bundle install
+```
+
+Then use the helper script:
+
+```bash
+bin/preview              # clean build, serve with live reload, open http://127.0.0.1:4000/
+bin/preview build        # clean build into _site/ and exit
+bin/preview --port 4001  # use another port
+bin/preview --no-open    # don't open the browser
+```
+
+- Pages, posts and styles rebuild automatically when you save and the browser reloads. Changes to `_config.yml` need a restart (Ctrl + C, then run `bin/preview` again).
+- If it says the port is in use, an old server is still running: `pkill -f 'jekyll serve'`.
+- Open the site through the local server, not by opening `_site/*.html` directly, because links use root-relative paths like `/assets/...`.
+- The tweets page, the mermaid diagrams and MathJax load from CDNs, so they need an internet connection.
+- Plain `bundle exec jekyll serve` also works if you don't want the script.
+
+---
+
 To make changes to the styling of your website, you should now edit the file:
 _sass/_main.scss
 Here's why:
