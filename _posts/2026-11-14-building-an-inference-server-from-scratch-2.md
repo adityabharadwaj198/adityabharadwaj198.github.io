@@ -20,7 +20,9 @@ excerpt: "I added token streaming to my LLM inference server, shipped an emoji b
 9. [Trying it out](#trying-it-out)
 10. [What's next](#whats-next)
 
-User experience can be quiet sad if you try to use the server from the [last post]({% post_url 2026-10-04-building-an-inference-server-from-scratch %}) does if you ask for a 512 token answer on my Mac. Imagine asking an LLM a question and then staring at a blank screen for 30 seconds. Last time we built an inference server around a Qwen3 model, talked about how token generation happens one token at a time, what prefill and the decode loop are, and how a KV cache cuts inter token latency (ITL) and the time to generate the entire output (the benefit of the cache gets bigger the longer the response is: 2.2x at 32 tokens, 7.3x at 512).
+User experience can be quiet sad if you try to use the server from the [last post]({% post_url 2026-10-04-building-an-inference-server-from-scratch %}) if you ask for a 512 token answer on my Mac. Imagine asking an LLM a question and then staring at a blank screen for 30 seconds. Last time we built an inference server around a Qwen3 model, talked about how token generation happens one token at a time, what prefill and the decode loop are, and how a KV cache cuts inter token latency (ITL) and the time to generate the entire output (the benefit of the cache gets bigger the longer the response is: 2.2x at 32 tokens, 7.3x at 512).
+
+BTW the entire code is present here: https://github.com/adityabharadwaj198/inference-server. Check it out and leave feedback! 
 
 Even with the cache, 30 seconds is a long time. In this post we're gonna fix that by streaming tokens to the user as they're generated. I'll also cover the bug I wrote without noticing (it involves emojis), and what happens when more than one request hits the server. 
 
@@ -274,3 +276,4 @@ You'll see `data: {"text": ...}` lines trickle in about 50 ms apart and a `data:
 ## What's next
 
 Streaming doesn't make the model faster, but it makes the wait feel way shorter: first text in ~0.24 s no matter how long the answer is, versus 30 s of staring at nothing at 512 tokens. We also learned that a token isn't a character (which I learned the hard way), and that our server has flat throughput no matter how many people are using it. In the next post I'm gonna go after that last one: batching, so multiple users can share a single forward pass.
+
