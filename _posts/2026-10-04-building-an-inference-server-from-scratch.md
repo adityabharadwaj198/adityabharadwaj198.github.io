@@ -4,7 +4,7 @@ title: "Building an inference server from scratch, Part #1: how the KV cache mad
 date: 2026-10-04
 categories: [blog]
 tags: [llm, large-language-model, ai-engineering, inference-server, learning]
-excerpt: "I built an LLM inference server with PyTorch, FastAPI and Hugging Face Transformers, then measured what the KV cache really buys you: 2.2x at 32 tokens, 7.3x at 512."
+excerpt: "I built an LLM inference server with PyTorch, FastAPI and Hugging Face Transformers, then measured how the KV cache really helps: 2.2x speedup at 32 tokens, 7.3x speedup at 512."
 ---
 
 **Contents**

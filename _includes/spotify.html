@@ -1,0 +1,24 @@
+{%- comment -%}
+  Embed a Spotify track, album, playlist, artist, episode or show in a post.
+  Usage: {% include spotify.html url="https://open.spotify.com/track/..." %}
+  Paste the link from Spotify's Share > Copy link. Optional: height=232 to override.
+{%- endcomment -%}
+{%- assign path = include.url | split: '?' | first | remove: 'https://open.spotify.com/' | split: '/' -%}
+{%- if path[0] contains 'intl-' -%}
+  {%- assign kind = path[1] -%}
+  {%- assign id = path[2] -%}
+{%- else -%}
+  {%- assign kind = path[0] -%}
+  {%- assign id = path[1] -%}
+{%- endif -%}
+{%- if kind == 'track' or kind == 'episode' -%}
+  {%- assign default_height = 152 -%}
+{%- else -%}
+  {%- assign default_height = 352 -%}
+{%- endif -%}
+<iframe class="spotify-embed"
+  src="https://open.spotify.com/embed/{{ kind }}/{{ id }}"
+  height="{{ include.height | default: default_height }}"
+  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+  loading="lazy"
+  title="Spotify {{ kind }}"></iframe>
