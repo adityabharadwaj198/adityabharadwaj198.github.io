@@ -1,12 +1,11 @@
 ---
-
-## layout: post
-
+layout: post
 title: "Building an inference server from scratch, Part #2: streaming tokens, or how first text went from 30 s to 0.24 s"
 date: 2026-11-14
 categories: [blog]
 tags: [llm, large-language-model, ai-engineering, inference-server, learning]
 excerpt: "I added token streaming to my LLM inference server, shipped an emoji bug without noticing, and measured what streaming really buys you: first text in 0.24 s whether the answer is 32 tokens or 512. It doesn't make generation faster though, and it falls apart the moment a few users show up at once."
+---
 
 **Contents**
 
@@ -16,7 +15,7 @@ excerpt: "I added token streaming to my LLM inference server, shipped an emoji b
 4. [Why we decode the whole completion](#why-we-decode-the-whole-completion)
 5. [Wait, there's a bug](#wait-theres-a-bug)
 6. [Does streaming make it faster?](#does-streaming-make-it-faster)
-7. [Isn't re-decoding everything wasteful?](#isnt-re-decoding-everything-wasteful)
+7. [Isn't re-decoding everything non-optimal?](#isnt-re-decoding-everything-wasteful)
 8. [What happens when multiple requests hit the server?](#what-happens-when-multiple-requests-hit-the-server)
 9. [Trying it out](#trying-it-out)
 10. [What's next](#whats-next)
