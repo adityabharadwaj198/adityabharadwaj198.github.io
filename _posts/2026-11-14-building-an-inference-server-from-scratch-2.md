@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Building an inference server from scratch, Part #2: streaming tokens, or how first text went from 30 s to 0.24 s"
+title: "Building an inference server from scratch, Part #2: streaming, or how time to first token went from 30 s to 0.24 s"
 date: 2026-11-14
 categories: [blog]
 tags: [llm, large-language-model, ai-engineering, inference-server, learning]
